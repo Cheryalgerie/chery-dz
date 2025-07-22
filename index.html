@@ -73,7 +73,12 @@ h2 span {
 
 </head>
 <body>
-
+<div id="loader">
+  <div class="loader-content">
+    <img src="logo.png" alt="Logo" class="loader-logo">
+    <div class="spinner"></div>
+  </div>
+</div>
 <header>
   <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap header-container">
     <img src="logo.png" alt="Logo" class="logo">
@@ -425,12 +430,6 @@ document.getElementById("contactForm").addEventListener("submit", function(e) {
   });
 });
 </script>
-<div id="loader">
-  <div class="loader-content">
-    <img src="logo.png" alt="Logo" class="loader-logo">
-    <div class="spinner"></div>
-  </div>
-</div>
   <script>
 window.addEventListener("load", () => {
   document.getElementById("loader").style.display = "none";
