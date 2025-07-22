@@ -145,9 +145,9 @@ h2 span {
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-1" href="#">
-            <i class="bi bi-tools text-danger"></i> الخدمات
-          </a>
+          <a class="nav-link d-flex align-items-center gap-1" href="#services">
+  <i class="bi bi-tools text-danger"></i> الخدمات
+</a>
         </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center gap-1" href="#">
@@ -292,7 +292,24 @@ h2 span {
 
 
 </div>
+<div id="services" class="container my-5">
+  <h2 class="mb-4 text-center">
+    <span>خدماتنا</span>
+  </h2>
 
+  <div class="card p-4 mx-auto" style="max-width: 500px;">
+    <form id="serviceForm">
+      <div class="mb-3">
+        <label for="serviceMessage" class="form-label">اكتب استفسارك</label>
+        <textarea class="form-control" id="serviceMessage" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-danger w-100">إرسال</button>
+      <div id="serviceThanks" class="text-success mt-3 text-center" style="display: none;">
+        ✅ شكرا، تم إرسال استفسارك!
+      </div>
+    </form>
+  </div>
+</div>
 <footer class="bg-dark text-white text-center py-3 mt-5">
   <p>© 2025 جميع الحقوق محفوظة</p>
 </footer>
@@ -568,6 +585,14 @@ document.getElementById("langBtn").addEventListener("click", () => {
       if (en) el.textContent = translations[en];
     }
   });
+});
+</script>
+  <script>
+document.getElementById("serviceForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const thanks = document.getElementById("serviceThanks");
+  thanks.style.display = "block";
+  this.reset();
 });
 </script>
 </body>
