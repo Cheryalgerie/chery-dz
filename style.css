@@ -93,3 +93,16 @@ h2 span {
   color: #e41e26;
 }
 </style>
+/* لتقليل حجم الصور أكثر */
+.card img {
+  height: 100px;
+  object-fit: cover;
+}
+
+/* عندما تكون الشاشة صغيرة، تجعل الأعمدة فردية */
+@media (max-width: 768px) {
+  .row .col-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
