@@ -525,5 +525,50 @@ window.addEventListener("load", () => {
     </div>
   </div>
 </div>
+  <script>
+document.getElementById("langBtn").addEventListener("click", () => {
+  const translations = {
+    "CHERY ALGERIE": "شيري الجزائر",
+    "Book Now": "احجز الآن",
+    "Home": "الرئيسية",
+    "Services": "خدماتنا",
+    "Models": "الموديلات",
+    "Prices": "الأسعار",
+    "Contact": "اتصل بنا",
+    "Order Car": "طلب سيارة",
+    "First Name": "الاسم",
+    "Last Name": "اللقب",
+    "Phone": "رقم الهاتف",
+    "Email": "البريد الإلكتروني",
+    "State": "اختر الولاية",
+    "© 2025 All Rights Reserved": "© 2025 جميع الحقوق محفوظة",
+    "تم إرسال طلبك بنجاح! سنقوم بالاتصال بك قريبًا.": "✅ Your request was sent successfully! We’ll contact you soon.",
+    "تمت العملية بنجاح، سيتم معالجة طلبك قريبا!": "✅ Successfully submitted, we’ll process your request shortly!"
+  };
+
+  const btn = document.getElementById("langBtn");
+  const isArabic = btn.textContent.trim() === "AR";
+
+  btn.textContent = isArabic ? "AR" : "EN";
+
+  const elements = document.querySelectorAll("h1, h2, h3, .nav-link, .modal-title, label, footer p, #formMessage, #thankYouMessage, button");
+
+  elements.forEach(el => {
+    const txt = el.textContent.trim();
+    if (isArabic) {
+      // ترجمة للعربية
+      const ar = Object.values(translations).find(v => v === txt);
+      if (ar) {
+        const en = Object.keys(translations).find(k => translations[k] === txt);
+        if (en) el.textContent = en;
+      }
+    } else {
+      // ترجمة للإنجليزية
+      const en = Object.keys(translations).find(k => k === txt);
+      if (en) el.textContent = translations[en];
+    }
+  });
+});
+</script>
 </body>
 </html>
