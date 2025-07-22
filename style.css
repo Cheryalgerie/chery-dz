@@ -106,3 +106,7 @@ h2 span {
     max-width: 100%;
   }
 }
+.header-text h1 {
+  font-family: 'Tajawal', sans-serif;
+}
+
