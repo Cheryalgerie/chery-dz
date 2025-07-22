@@ -134,7 +134,11 @@ h2 span {
 
     <!-- القائمة -->
     <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
-      <ul class="navbar-nav gap-3">
+      <li class="nav-item">
+  <a class="nav-link d-flex align-items-center gap-1" href="#" data-bs-toggle="modal" data-bs-target="#pricesModal">
+    <i class="bi bi-cash-coin text-danger"></i> الأسعار
+  </a>
+      </li>
         <li class="nav-item">
           <a class="nav-link d-flex align-items-center gap-1" href="#">
             <i class="bi bi-house-door-fill text-danger"></i> الرئيسية
@@ -472,5 +476,54 @@ window.addEventListener("load", () => {
   }, 500); // ينتظر نصف ثانية ويختفي
 });
 </script>
+  <!-- Modal جدول الأسعار -->
+<div class="modal fade" id="pricesModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">جدول أسعار السيارات</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-striped text-center">
+            <thead class="table-dark">
+              <tr>
+                <th>السيارة</th>
+                <th>السعر (دج)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CHERY TIGGO 8 PRO</td>
+                <td>6,000,000</td>
+              </tr>
+              <tr>
+                <td>CHERY TIGGO 7 PRO</td>
+                <td>4,800,000</td>
+              </tr>
+              <tr>
+                <td>CHERY TIGGO 4 PRO</td>
+                <td>3,700,000</td>
+              </tr>
+              <tr>
+                <td>CHERY TIGGO 2 PRO</td>
+                <td>3,000,000</td>
+              </tr>
+              <tr>
+                <td>CHERY ARRIZO 5</td>
+                <td>2,500,000</td>
+              </tr>
+              <tr>
+                <td>CHERY ARRIZO 8</td>
+                <td>5,500,000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
