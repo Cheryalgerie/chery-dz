@@ -1,0 +1,95 @@
+/* الهيدر */
+header {
+  background-color: #e41e26;
+  color: #fff;
+  padding: 15px;
+}
+
+.header-container {
+  flex-direction: row;
+  text-align: right;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+}
+
+.header-text {
+  text-align: right;
+}
+
+.header-text h1 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.header-text h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* سكرول أفقي */
+.carousel-inner img {
+  max-height: 220px; /* أصغر قليلاً */
+  object-fit: contain;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 50px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+/* الكلاسيكي */
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  min-height: 450px; /* أطول قليلاً */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px rgba(228, 30, 38, 0.4);
+}
+
+.card img {
+  border-radius: 12px;
+  height: 160px; /* أصغر قليلاً */
+  object-fit: cover;
+}
+
+/* عنوان بإطار دائري */
+h2 span {
+  background-color: #e41e26;
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 50px;
+}
+<style>
+.navbar-nav .nav-link {
+  color: #333;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #e41e26;
+}
+
+.navbar-nav .nav-link i {
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover i {
+  color: #e41e26;
+}
+</style>
