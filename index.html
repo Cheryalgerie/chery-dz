@@ -170,7 +170,30 @@ img {
 .card .btn-order {
   margin-top: auto;
 }
-</style>
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: start; /* بدل space-between */
+  min-height: 380px;
+  padding: 15px; /* شوية padding */
+}
+
+.card img {
+  margin-bottom: 10px; /* يخلي مسافة صغيرة تحت الصورة */
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.btn-order {
+  margin-top: 15px;
+  align-self: start; /* أو center حسب ذوقك */
+}
+
 
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
