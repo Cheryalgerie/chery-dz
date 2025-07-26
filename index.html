@@ -224,6 +224,37 @@ img {
 .card-text {
   font-size: 0.95rem;
   margin-bottom: 15px; /* مسافة قبل*
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px; /* زدت الطول شوية */
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.card-img-top {
+  height: 180px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-title, .card-text {
+  margin-bottom: 10px;
+}
+
+.btn-order {
+  margin-top: auto;
+  width: 100%;
+  align-self: stretch;
+}
 
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
