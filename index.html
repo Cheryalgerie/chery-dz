@@ -314,6 +314,39 @@ img {
 .card .btn-order {
   margin-top: auto;
 }
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 420px; /* زيد حسب الطول لي تحب */
+}
+
+.card-img-top {
+  height: 180px !important; /* كبر الصورة */
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.card-title {
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.card-text {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.card .btn {
+  margin-top: auto; /* يخلي الزر دايمًا في الأسفل */
+}
 
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
