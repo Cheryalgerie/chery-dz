@@ -194,6 +194,36 @@ img {
   align-self: start; /* أو center حسب ذوقك */
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  min-height: 400px;
+  padding: 10px;
+}
+
+.card img {
+  margin-top: 10px;       /* نزول الصورة */
+  margin-bottom: 10px;    /* مسافة بين الصورة والعنوان */
+  height: 160px;
+  object-fit: cover;
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.card-title {
+  margin-bottom: 8px; /* مسافة تحت اسم السيارة */
+  font-size: 1.2rem;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  margin-bottom: 15px; /* مسافة قبل*
 
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
