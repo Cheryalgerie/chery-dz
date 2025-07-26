@@ -255,6 +255,44 @@ img {
   width: 100%;
   align-self: stretch;
 }
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 430px; /* طول الكادر */
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card img {
+  height: 180px; /* صورة أطول */
+  object-fit: cover;
+  border-radius: 0;
+  margin-top: 10px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  flex: 1;
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  margin-bottom: auto; /* هذا هو المفتاح */
+}
+
+.btn-order {
+  margin-top: 15px;
+  width: 100%;
+}
 
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
