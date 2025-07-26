@@ -150,7 +150,16 @@ img {
 .card {
   min-height: 350px; /* زيد الرقم حسب ما تحب */
 }
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* مهم باش ياخذ كامل الطول */
+}
 
+.card .btn-order {
+  margin-top: auto;
+}
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
 </head>
