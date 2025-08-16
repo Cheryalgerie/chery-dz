@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="ar">
 <head>
- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />   
-  <style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+<style>
 #loader {
   position: fixed;
   inset: 0;
@@ -35,10 +36,10 @@
   }
 }
 </style>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>شيري الجزائر | Chery Algeria</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet"/>
 <style>
 header {
   background-color: #e41e26;
@@ -347,329 +348,742 @@ img {
 .card .btn {
   margin-top: auto; /* يخلي الزر دايمًا في الأسفل */
 }
+/* زر الطلب */
+.order-btn {
+  background-color: #e50914;
+  color: white;
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.order-btn:hover {
+  background-color: #c40812;
+}
+
+/* المودال */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background: white;
+  margin: 5% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+
+.close {
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.card-images {
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 0;
+}
+.card-images img {
+  width: 180px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.card-images p {
+  font-size: 14px;
+}
+
+.card-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.card-form input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.card-form button {
+  background: #e50914;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.card-form button:hover {
+  background: #c40812;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 </style>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&display=swap" rel="stylesheet">
-</head>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@700&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root{
+      --gold:#d4af37; /* ذهبي */
+      --gold-dark:#b68d27;
+      --bg:#f6f7fb;
+      --card:#ffffff;
+      --text:#1b1f23;
+      --muted:#6b7280;
+      --danger:#dc2626;
+      --success:#16a34a;
+      --radius:16px;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family:"Cairo", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    .container{
+      max-width:1100px; margin:32px auto; padding:0 16px;
+    }
+    .header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:20px }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:20px; }
+    .brand .logo{ width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg,var(--gold),var(--gold-dark)); display:grid; place-items:center; color:#fff; box-shadow:var(--shadow) }
+
+    .grid{ display:grid; grid-template-columns: 520px 1fr; gap:24px; }
+    @media (max-width: 980px){ .grid{ grid-template-columns:1fr; } }
+
+    .panel{ background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:22px; }
+    h2{ margin:0 0 6px; font-size:22px }
+    p.lead{ margin:0 0 18px; color:var(--muted); font-size:14px }
+
+    /* فورم الدفع */
+    .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .form-row-3{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:12px; }
+    .field{ margin-bottom:14px; }
+    .label{ font-weight:600; margin-bottom:6px; font-size:14px; display:flex; align-items:center; gap:8px }
+    .control{ position:relative }
+    .control i{ position:absolute; inset-inline-start:12px; top:50%; transform:translateY(-50%); pointer-events:none; }
+    input[type="text"], input[type="tel"], input[type="email"], input[type="number"]{
+      width:100%; padding:12px 14px; padding-inline-start:40px; border:1px solid #e5e7eb; border-radius:10px; outline:none; background:#fff; font-size:15px; transition:border-color .2s, box-shadow .2s;
+    }
+    input:focus{ border-color:var(--gold); box-shadow:0 0 0 4px rgba(212,175,55,.15); }
+    .hint{ font-size:12px; color:var(--muted); margin-top:6px }
+    .error{ font-size:12px; color:var(--danger); margin-top:6px; display:none }
+    .ok{ font-size:12px; color:var(--success); margin-top:6px; display:none }
+
+    .actions{ display:flex; align-items:center; gap:10px; margin-top:10px }
+    .btn{ width:100%; padding:14px 16px; background:var(--gold); color:#fff; border:none; border-radius:12px; cursor:pointer; font-weight:700; font-size:16px; box-shadow:var(--shadow); transition:transform .08s ease, background .2s }
+    .btn:hover{ background:var(--gold-dark) }
+    .btn:active{ transform:translateY(1px) }
+    .secure{ display:flex; align-items:center; gap:8px; color:var(--muted); font-size:12px }
+
+    /* معاينة بطاقة مصغرة */
+    .mini-card{ background:linear-gradient(135deg,var(--gold),var(--gold-dark)); color:#fff; border-radius:14px; padding:16px; box-shadow:var(--shadow); min-height:120px; position:relative; overflow:hidden }
+    .mini-chip{ width:36px; height:26px; background:rgba(255,255,255,.5); border-radius:6px; position:absolute; top:16px; inset-inline-start:16px }
+    .mini-number{ letter-spacing:2px; font-weight:700; font-size:18px; margin-top:52px }
+    .mini-footer{ display:flex; gap:20px; margin-top:10px; font-size:12px; opacity:.95 }
+
+    /* لوحة الإرشادات + الصورة */
+    .guide{ position:relative }
+    .guide .image-wrap{ position:relative; overflow:hidden; border-radius:14px; background:#fff; border:1px solid #eee }
+    .guide img{ width:100%; height:auto; display:block }
+    .guide-note{ margin-top:12px; background:#fff; border:1px dashed var(--gold); color:#6b5b17; padding:12px; border-radius:12px; font-size:13px }
+    .bullet{ display:flex; gap:8px; align-items:flex-start; margin:6px 0; color:#4b5563; font-size:13px }
+    .bullet i{ color:var(--gold) }
+
+    .footer-note{ margin-top:16px; color:var(--muted); font-size:12px }
+    .success-box{ display:none; background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; padding:12px; border-radius:12px; margin-top:12px }
+    .danger-box{ display:none; background:#fef2f2; color:#991b1b; border:1px solid #fecaca; padding:12px; border-radius:12px; margin-top:12px }
+  </style><style>
+/* تكبير المودال تاع الدفع */
+#cardModal .modal-dialog {
+  max-width: 95% !important;
+  margin: 20px auto;
+}
+#cardModal .modal-content {
+  height: 95vh;
+}
+#cardModal .container {
+  max-width: 1200px;
+  width: 100%;
+}
+</style><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><style>
+:root{
+  --primary:#e41e26; /* CHERY Red */
+  --bg:#ffffff;
+  --card:#ffffff;
+  --text:#111111;
+  --muted:#555555;
+  --radius:12px;
+  --shadow:0 4px 12px rgba(0,0,0,.08);
+}
+body{font-family:"Tajawal", sans-serif; background:var(--bg); color:var(--text);}
+#mainNav{position:sticky; top:0; z-index:1040; background:#fff; border-bottom:1px solid #eee}
+#mainNav .nav-link{color:var(--primary); font-weight:600}
+#mainNav .nav-link:hover{color:#b50f18}
+#mainNav .navbar-brand{font-weight:800; color:var(--primary)}
+.btn-primary-cta{background:var(--primary); border:none; color:#fff; border-radius:8px; padding:8px 14px; font-weight:700}
+.btn-primary-cta:hover{background:#b50f18}
+.section{padding:48px 16px}
+.section .section-title{color:var(--primary); margin:0 0 12px; font-size:26px; font-weight:800; text-align:center}
+.section .section-sub{text-align:center; color:var(--muted); margin-bottom:18px}
+.card-x, .testimonial, .accordion-item{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; color:var(--text)}
+.testimonials{display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.testimonial .title{font-weight:700; margin-bottom:8px; color:var(--primary)}
+.testimonial .muted{color:var(--muted)}
+footer{background:#f9f9f9; text-align:center; padding:18px; color:var(--muted); font-size:14px}
+#waBtn{position:fixed; bottom:18px; inset-inline-start:18px; z-index:1050; background:#25D366; color:#fff;
+  padding:12px 14px; border-radius:999px; box-shadow:var(--shadow); text-decoration:none; font-weight:700; font-size:14px}
+#waBtn:hover{filter:brightness(1.1)}
+#appLoader{position:fixed; inset:0; background:#fff; display:grid; place-items:center; z-index:2000}
+.loader-dot{width:10px;height:10px;border-radius:999px;background:var(--primary);animation:bounce 1s infinite alternate}
+.loader-dot:nth-child(2){animation-delay:.15s}
+.loader-dot:nth-child(3){animation-delay:.3s}
+@keyframes bounce{to{transform:translateY(-10px)}}
+.reveal{opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease}
+.reveal.show{opacity:1; transform:none}
+</style><style>
+/* Custom hamburger menu */
+.navbar-toggler {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.navbar-toggler-icon {
+  background-image: none !important;
+  width: 28px;
+  height: 2px;
+  background-color: #e41e26;
+  position: relative;
+  transition: all 0.3s;
+}
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 2px;
+  background-color: #e41e26;
+  left: 0;
+  transition: all 0.3s;
+}
+.navbar-toggler-icon::before {
+  top: -8px;
+}
+.navbar-toggler-icon::after {
+  top: 8px;
+}
+</style><style>
+.navbar-nav .nav-link {
+  color: #111 !important;
+  font-weight: 600;
+  padding: 8px 12px;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #e41e26 !important;
+  background: transparent !important;
+}
+</style><style>
+/* Navbar clean layout */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 1rem;
+}
+.navbar-brand {
+  font-weight: 800;
+  color: #e41e26 !important;
+}
+.navbar-nav {
+  gap: 12px;
+}
+.navbar-nav .nav-link {
+  color: #111 !important;
+  font-weight: 600;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #e41e26 !important;
+}
+</style><style>
+/* Navbar clean layout */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 1rem;
+}
+.navbar-brand {
+  font-weight: 800;
+  color: #e41e26 !important;
+}
+.navbar-nav {
+  gap: 16px;
+}
+.navbar-nav .nav-link {
+  color: #111 !important;
+  font-weight: 600;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #e41e26 !important;
+}
+</style><style>
+.navbar-toggler {
+  border: none;
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(228,30,38)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+</style><style>
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 1rem;
+}
+.navbar-brand img {
+  height: 32px;
+}
+.navbar-nav .nav-link {
+  color: #111 !important;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #e41e26 !important;
+}
+.navbar-toggler {
+  border: none;
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(228,30,38)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+</style><style>
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 1rem;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.navbar-brand img {
+  height: 40px;
+}
+.navbar-toggler {
+  border: none;
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(228,30,38)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+</style><style>
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 0.3rem 1rem;
+}
+.navbar-nav .nav-link {
+  color: #111 !important;
+  font-weight: 600;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #e41e26 !important;
+}
+.navbar-toggler {
+  border: none;
+}
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(228,30,38)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+</style><style>
+.top-header {
+  background:#e41e26;
+  color:#fff;
+  padding:6px 12px;
+}
+.top-header .brand-text {
+  font-weight:800;
+  font-size:18px;
+  color:#fff;
+}
+.btn-reserve {
+  background:#fff;
+  color:#e41e26;
+  font-weight:700;
+  padding:6px 14px;
+  border-radius:6px;
+  text-decoration:none;
+}
+.btn-reserve:hover {
+  background:#f5f5f5;
+}
+.navbar {
+  background:#fff;
+  border-bottom:1px solid #eee;
+  padding:0.4rem 1rem;
+}
+.lang-btn {
+  background:#e41e26;
+  color:#fff !important;
+  font-weight:600;
+}
+.navbar-nav .nav-link {
+  color:#111 !important;
+  font-weight:600;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color:#e41e26 !important;
+}
+.navbar-toggler {
+  border:none;
+}
+.navbar-toggler-icon {
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(228,30,38)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+</style><style>
+.top-header {
+  background:#e41e26;
+  color:#fff;
+  padding:6px 12px;
+}
+.top-header .brand-text {
+  font-weight:800;
+  font-size:18px;
+  color:#fff;
+}
+.btn-reserve {
+  background:#fff;
+  color:#e41e26;
+  font-weight:700;
+  padding:6px 14px;
+  border-radius:6px;
+  text-decoration:none;
+}
+.btn-reserve:hover {
+  background:#f5f5f5;
+}
+.navbar {
+  background:#fff;
+  border-bottom:1px solid #eee;
+  padding:0.4rem 1rem;
+}
+.lang-btn {
+  background:#e41e26;
+  color:#fff !important;
+  font-weight:600;
+}
+.navbar-nav .nav-link {
+  color:#111 !important;
+  font-weight:600;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color:#e41e26 !important;
+}
+.navbar-toggler {
+  border:none;
+}
+.navbar-toggler-icon {
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(228,30,38)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+</style><style>
+.navbar {
+  background:#fff;
+  border-bottom:1px solid #eee;
+  padding:0.4rem 1rem;
+}
+.lang-btn {
+  background:#e41e26;
+  color:#fff !important;
+  font-weight:600;
+}
+.navbar-nav .nav-link {
+  color:#111 !important;
+  font-weight:600;
+}
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color:#e41e26 !important;
+}
+.navbar-toggler {
+  border:none;
+}
+.navbar-toggler-icon {
+  background-image:url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(228,30,38)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+</style><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/><style>
+/* إخفاء زر "طلب الآن" اللي يجي بعد الفوتر مباشرة */
+footer + .btn.btn-danger,
+footer + a.btn.btn-danger {
+  display: none !important;
+}
+
+/* شريط الحقوق في الأسفل */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #111;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
+  z-index: 1000;
+}
+</style></head>
 <body>
+<div id="appLoader"><div style="display:flex; gap:8px; align-items:center"><div class="loader-dot"></div><div class="loader-dot"></div><div class="loader-dot"></div></div></div>
 <div id="loader">
-  <div class="loader-content">
-    <img src="logo.png" alt="Logo" class="loader-logo">
-    <div class="spinner"></div>
-  </div>
+<div class="loader-content">
+<div class="spinner"></div>
+</div>
 </div>
 <header>
-  <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap header-container">
-    <img src="logo.png" alt="Logo" class="logo">
-    <div class="header-text">
-      <h1 class="m-0">CHERY ALGERIE</h1>
-      <h3>احجز الآن</h3>
-    </div>
-  </div>
+<div class="d-flex justify-content-center align-items-center gap-3 flex-wrap header-container"><img alt="CHERY Logo" class="logo" src="logo.png"/>
+<div class="header-text">
+<h1 class="m-0">CHERY ALGERIE</h1>
+<h3>احجز الآن</h3>
+</div>
+</div>
 <!-- أضف هذا بعد الـ <header> مباشرة -->
-
-<nav class="navbar navbar-expand-lg shadow-sm" style="background-color: #f7f7f7; border-radius: 0 0 15px 15px; margin-top: 10px;">
-  <div class="container">
-
-    <!-- زر الهامبرغر للشاشات الصغيرة -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <!-- القائمة -->
-      <div class="collapse navbar-collapse justify-content-center" id="navbarContent">
-          <li class="nav-item">
-  <a class="nav-link d-flex align-items-center gap-1" href="#" data-bs-toggle="modal" data-bs-target="#pricesModal">
-  <i class="bi bi-cash-coin"></i> <span style="color: red;">الأسعار</span>
-</a>
-          </li>
-        <li class="nav-item">
-          <ul class="navbar-nav">
-          <a class="nav-link d-flex align-items-center gap-1" href="#">
-            <i class="bi bi-house-door-fill text-danger"></i> الرئيسية
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-1" href="#services">
-  <i class="bi bi-tools text-danger"></i> الخدمات
-</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-1" href="#">
-            <i class="bi bi-car-front-fill text-danger"></i> الموديلات
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link d-flex align-items-center gap-1" href="#">
-            <i class="bi bi-telephone-fill text-danger"></i> اتصل بنا
-            </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- زر اللغة -->
-    <button class="btn btn-danger d-flex align-items-center gap-1 ms-2">
-      <i class="bi bi-translate"></i> EN
-    </button>
-  </div>
+</header><nav class="navbar">
+<div class="container d-flex justify-content-between align-items-center"><div style="display:flex; justify-content:space-between; align-items:center; width:100%;"><button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button><img alt="Mini Logo" height="28" src="logo.png"/><a class="btn btn-sm lang-btn" href="#">FR</a></div></div>
+<div class="collapse navbar-collapse" id="navbarNav">
+<ul class="navbar-nav ms-auto"><li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="#home"><i class="fa fa-home" style="color:#e41e26;"></i><span>الرئيسية</span></a></li><li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="#" onclick="showPrices(event)"><i class="fa fa-dollar-sign" style="color:#e41e26;"></i><span>الأسعار</span></a></li><li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="#models"><i class="fa fa-car" style="color:#e41e26;"></i><span>الموديلات</span></a></li><li class="nav-item"><a class="nav-link d-flex align-items-center gap-2" href="#contact"><i class="fa fa-phone" style="color:#e41e26;"></i><span>تواصل معنا</span></a></li></ul>
+</div>
 </nav>
-
-
-
-</header>
-
-
-
-
 <div class="container my-5">
-
-  <h2 class="mb-4 text-center">
-    <span>موديلاتنا</span>
-  </h2>
-
-  <div id="carouselHorizontal" class="carousel slide position-relative mb-5">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="car1.jpg" class="d-block w-100" alt="سيارة 1">
-      </div>
-      <div class="carousel-item">
-        <img src="car2.jpg" class="d-block w-100" alt="سيارة 2">
-      </div>
-      <div class="carousel-item">
-        <img src="car3.jpg" class="d-block w-100" alt="سيارة 3">
-      </div>
-      <div class="carousel-item">
-        <img src="car4.jpg" class="d-block w-100" alt="سيارة 4">
-      </div>
-      <div class="carousel-item">
-        <img src="car5.jpg" class="d-block w-100" alt="سيارة 5">
-      </div>
-      <div class="carousel-item">
-        <img src="car6.jpg" class="d-block w-100" alt="سيارة 6">
-      </div>
-    </div>
-
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselHorizontal" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">السابق</span>
-    </button>
-
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselHorizontal" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">التالي</span>
-    </button>
-  </div>
-
-  <h2 class="mb-4 text-center">
-    <span>جميع الموديلات</span>
-  </h2>
+<h2 class="mb-4 text-center">
+<span>موديلاتنا</span>
+</h2>
+<div class="carousel slide position-relative mb-5" id="carouselHorizontal">
+<div class="carousel-inner">
+<div class="carousel-item active">
+<img alt="سيارة 1" class="d-block w-100" loading="lazy" src="car1.jpg"/>
+</div>
+<div class="carousel-item">
+<img alt="سيارة 2" class="d-block w-100" loading="lazy" src="car2.jpg"/>
+</div>
+<div class="carousel-item">
+<img alt="سيارة 3" class="d-block w-100" loading="lazy" src="car3.jpg"/>
+</div>
+<div class="carousel-item">
+<img alt="سيارة 4" class="d-block w-100" loading="lazy" src="car4.jpg"/>
+</div>
+<div class="carousel-item">
+<img alt="سيارة 5" class="d-block w-100" loading="lazy" src="car5.jpg"/>
+</div>
+<div class="carousel-item">
+<img alt="سيارة 6" class="d-block w-100" loading="lazy" src="car6.jpg"/>
+</div>
+</div>
+<button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselHorizontal" type="button">
+<span aria-hidden="true" class="carousel-control-prev-icon"></span>
+<span class="visually-hidden">السابق</span>
+</button>
+<button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselHorizontal" type="button">
+<span aria-hidden="true" class="carousel-control-next-icon"></span>
+<span class="visually-hidden">التالي</span>
+</button>
+</div>
+<h2 class="mb-4 text-center">
+<span>جميع الموديلات</span>
+</h2>
 <div class="row g-3">
-  <div class="col-12 col-md-4">
-    <div class="card">
-      <img src="car1.jpg" class="card-img-top" alt="سيارة 1" style="height: 100px; object-fit: cover;">
-      <div class="card-body p-2">
-        <h6 class="card-title">CHERRY TIGO 8 PRO</h6>
-        <p class="card-text small">السعر: 5.399.000 DZD</p>
-        <button class="btn btn-danger btn-sm w-100 mt-1" data-bs-toggle="modal" data-bs-target="#orderModal">طلب</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-md-4">
-    <div class="card">
-      <img src="car2.jpg" class="card-img-top" alt="سيارة 2" style="height: 100px; object-fit: cover;">
-      <div class="card-body p-2">
-        <h6 class="card-title">CHERRY TIGO 7 PRO</h6>
-        <p class="card-text small">السعر: 4.599.000 DZD</p>
-        <button class="btn btn-danger btn-sm w-100 mt-1" data-bs-toggle="modal" data-bs-target="#orderModal">طلب</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-md-4">
-    <div class="card">
-      <img src="car3.jpg" class="card-img-top" alt="سيارة 3" style="height: 100px; object-fit: cover;">
-      <div class="card-body p-2">
-        <h6 class="card-title">CHERRY TIGO 4 PRO</h6>
-        <p class="card-text small">السعر:2.990.000 DZD</p>
-        <button class="btn btn-danger btn-sm w-100 mt-1" data-bs-toggle="modal" data-bs-target="#orderModal">طلب</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-md-4">
-    <div class="card">
-      <img src="car4.jpg" class="card-img-top" alt="سيارة 4" style="height: 100px; object-fit: cover;">
-      <div class="card-body p-2">
-        <h6 class="card-title">CHERRY TIGO 2 PRO</h6>
-        <p class="card-text small">السعر:1.990.000  DZD</p>
-        <button class="btn btn-danger btn-sm w-100 mt-1" data-bs-toggle="modal" data-bs-target="#orderModal">طلب</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-md-4">
-    <div class="card">
-      <img src="car5.jpg" class="card-img-top" alt="سيارة 5" style="height: 100px; object-fit: cover;">
-      <div class="card-body p-2">
-        <h6 class="card-title">ARIZZO 5</h6>
-        <p class="card-text small">السعر  2.499.000 :DZD</p>
-        <button class="btn btn-danger btn-sm w-100 mt-1" data-bs-toggle="modal" data-bs-target="#orderModal">طلب</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-12 col-md-4">
-    <div class="card">
-      <img src="car6.jpg" class="card-img-top" alt="سيارة 6" style="height: 100px; object-fit: cover;">
-      <div class="card-body p-2">
-        <h6 class="card-title">ARIZZO 8</h6>
-        <p class="card-text small">السعر:4.849.000  DZD</p>
-        <button class="btn btn-danger btn-sm w-100 mt-1" data-bs-toggle="modal" data-bs-target="#orderModal">طلب</button>
-      </div>
-    </div>
-  </div>
+<div class="col-12 col-md-4">
+<div class="card">
+<img alt="سيارة 1" class="card-img-top" loading="lazy" src="car1.jpg" style="height: 100px; object-fit: cover;"/>
+<div class="card-body p-2">
+<h6 class="card-title">CHERRY TIGO 8 PRO</h6>
+<p class="card-text small">السعر: 5.399.000 DZD</p>
+<button class="btn btn-danger btn-sm w-100 mt-1" data-bs-target="#orderModal" data-bs-toggle="modal">طلب</button>
 </div>
-
-
-
 </div>
-<div id="services" class="container my-5">
-  <h2 class="mb-4 text-center">
-    <span>خدماتنا</span>
-  </h2>
-
-  <div class="card p-4 mx-auto" style="max-width: 500px;">
-    <form id="serviceForm">
-      <div class="mb-3">
-        <label for="serviceMessage" class="form-label">اكتب استفسارك </label>
-        <textarea class="form-control" id="serviceMessage" rows="3" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-danger w-100">إرسال</button>
-      <div id="serviceThanks" class="text-success mt-3 text-center" style="display: none;">
+</div>
+<div class="col-12 col-md-4">
+<div class="card">
+<img alt="سيارة 2" class="card-img-top" loading="lazy" src="car2.jpg" style="height: 100px; object-fit: cover;"/>
+<div class="card-body p-2">
+<h6 class="card-title">CHERRY TIGO 7 PRO</h6>
+<p class="card-text small">السعر: 4.599.000 DZD</p>
+<button class="btn btn-danger btn-sm w-100 mt-1" data-bs-target="#orderModal" data-bs-toggle="modal">طلب</button>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="card">
+<img alt="سيارة 3" class="card-img-top" loading="lazy" src="car3.jpg" style="height: 100px; object-fit: cover;"/>
+<div class="card-body p-2">
+<h6 class="card-title">CHERRY TIGO 4 PRO</h6>
+<p class="card-text small">السعر:2.990.000 DZD</p>
+<button class="btn btn-danger btn-sm w-100 mt-1" data-bs-target="#orderModal" data-bs-toggle="modal">طلب</button>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="card">
+<img alt="سيارة 4" class="card-img-top" loading="lazy" src="car4.jpg" style="height: 100px; object-fit: cover;"/>
+<div class="card-body p-2">
+<h6 class="card-title">CHERRY TIGO 2 PRO</h6>
+<p class="card-text small">السعر:1.990.000  DZD</p>
+<button class="btn btn-danger btn-sm w-100 mt-1" data-bs-target="#orderModal" data-bs-toggle="modal">طلب</button>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="card">
+<img alt="سيارة 5" class="card-img-top" loading="lazy" src="car5.jpg" style="height: 100px; object-fit: cover;"/>
+<div class="card-body p-2">
+<h6 class="card-title">ARIZZO 5</h6>
+<p class="card-text small">السعر  2.499.000 :DZD</p>
+<button class="btn btn-danger btn-sm w-100 mt-1" data-bs-target="#orderModal" data-bs-toggle="modal">طلب</button>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="card">
+<img alt="سيارة 6" class="card-img-top" loading="lazy" src="car6.jpg" style="height: 100px; object-fit: cover;"/>
+<div class="card-body p-2">
+<h6 class="card-title">ARIZZO 8</h6>
+<p class="card-text small">السعر:4.849.000  DZD</p>
+<button class="btn btn-danger btn-sm w-100 mt-1" data-bs-target="#orderModal" data-bs-toggle="modal">طلب</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="container my-5" id="services">
+<h2 class="mb-4 text-center">
+<span>خدماتنا</span>
+</h2>
+<div class="card p-4 mx-auto" style="max-width: 500px;">
+<form id="serviceForm">
+<div class="mb-3">
+<label class="form-label" for="serviceMessage">اكتب استفسارك </label>
+<textarea class="form-control" id="serviceMessage" required="" rows="3"></textarea>
+</div>
+<button class="btn btn-danger w-100" type="submit">إرسال</button>
+<div class="text-success mt-3 text-center" id="serviceThanks" style="display: none;">
         ✅ شكرا، تم إرسال استفسارك!
       </div>
-    </form>
-  </div>
+</form>
+</div>
 </div>
 <footer class="bg-dark text-white text-center py-3 mt-5">
-  <p>© 2025 جميع الحقوق محفوظة</p>
+<p>© 2025 جميع الحقوق محفوظة</p>
 </footer>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <!-- Modal -->
-<div class="modal fade" id="orderModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title">طلب سيارة</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
-      </div>
-  <div class="modal-body">
-  <form id="contactForm">
-    <div class="mb-3">
-      <label for="firstName" class="form-label">الاسم</label>
-      <input type="text" class="form-control" name="firstName" id="firstName" required>
-    </div>
-
-    <div class="mb-3">
-      <label for="lastName" class="form-label">اللقب</label>
-      <input type="text" class="form-control" name="lastName" id="lastName" required>
-    </div>
-
-    <div class="mb-3">
-      <label for="phone" class="form-label">رقم الهاتف</label>
-      <input type="text" class="form-control" name="phone" id="phone" required>
-    </div>
-
-    <div class="mb-3">
-      <label for="email" class="form-label">البريد الإلكتروني</label>
-      <input type="email" class="form-control" name="email" id="email" required>
-    </div>
-
-    <div class="mb-3">
-      <label for="wilaya" class="form-label">اختر الولاية</label>
-
-      <select class="form-select" name="wilaya" id="wilaya" required>
-  <option value="" disabled selected>اختر الولاية</option>
-  
-        <option>أدرار</option>
-        <option>الشلف</option>
-        <option>الأغواط</option>
-        <option>أم البواقي</option>
-        <option>باتنة</option>
-        <option>بجاية</option>
-        <option>بسكرة</option>
-        <option>بشار</option>
-        <option>البليدة</option>
-        <option>البويرة</option>
-        <option>تمنراست</option>
-        <option>تبسة</option>
-        <option>تلمسان</option>
-        <option>تيارت</option>
-        <option>تيزي وزو</option>
-        <option>الجزائر</option>
-        <option>الجلفة</option>
-        <option>جيجل</option>
-        <option>سطيف</option>
-        <option>سعيدة</option>
-        <option>سكيكدة</option>
-        <option>سيدي بلعباس</option>
-        <option>عنابة</option>
-        <option>قالمة</option>
-        <option>قسنطينة</option>
-        <option>المدية</option>
-        <option>مستغانم</option>
-        <option>المسيلة</option>
-        <option>معسكر</option>
-        <option>ورقلة</option>
-        <option>وهران</option>
-        <option>البيض</option>
-        <option>إليزي</option>
-        <option>برج بوعريريج</option>
-        <option>بومرداس</option>
-        <option>الطارف</option>
-        <option>تندوف</option>
-        <option>تيسمسيلت</option>
-        <option>الوادي</option>
-        <option>خنشلة</option>
-        <option>سوق أهراس</option>
-        <option>تيبازة</option>
-        <option>ميلة</option>
-        <option>عين الدفلى</option>
-        <option>النعامة</option>
-        <option>عين تموشنت</option>
-        <option>غرداية</option>
-        <option>غليزان</option>
-        <option>تميمون</option>
-        <option>برج باجي مختار</option>
-        <option>أولاد جلال</option>
-        <option>بني عباس</option>
-        <option>عين صالح</option>
-        <option>عين قزام</option>
-        <option>تقرت</option>
-        <option>جانت</option>
-        <option>المغير</option>
-        <option>المنيعة</option>
-      </select>
-    </div>
-        <div id="formMessage" class="text-center mb-2 text-success"></div>
-
-    <button type="submit" class="btn btn-danger w-100">إرسال</button>
-  </form>
+<div aria-hidden="true" class="modal fade" id="orderModal" tabindex="-1">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header bg-danger text-white">
+<h5 class="modal-title">طلب سيارة</h5>
+<button aria-label="إغلاق" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 </div>
-
-
-
-<div id="thankYouMessage" class="text-center text-success fw-bold" style="display: none; font-size: 1.2rem;">
+<div class="modal-body">
+<form id="contactForm">
+<div class="mb-3">
+<label class="form-label" for="firstName">الاسم</label>
+<input class="form-control" id="firstName" name="firstName" required="" type="text"/>
+</div>
+<div class="mb-3">
+<label class="form-label" for="lastName">اللقب</label>
+<input class="form-control" id="lastName" name="lastName" required="" type="text"/>
+</div>
+<div class="mb-3">
+<label class="form-label" for="phone">رقم الهاتف</label>
+<input class="form-control" id="phone" name="phone" required="" type="text"/>
+</div>
+<div class="mb-3">
+<label class="form-label" for="email">البريد الإلكتروني</label>
+<input class="form-control" id="email" name="email" required="" type="email"/>
+</div>
+<div class="mb-3">
+<label class="form-label" for="wilaya">اختر الولاية</label>
+<select class="form-select" id="wilaya" name="wilaya" required="">
+<option disabled="" selected="" value="">اختر الولاية</option>
+<option>أدرار</option>
+<option>الشلف</option>
+<option>الأغواط</option>
+<option>أم البواقي</option>
+<option>باتنة</option>
+<option>بجاية</option>
+<option>بسكرة</option>
+<option>بشار</option>
+<option>البليدة</option>
+<option>البويرة</option>
+<option>تمنراست</option>
+<option>تبسة</option>
+<option>تلمسان</option>
+<option>تيارت</option>
+<option>تيزي وزو</option>
+<option>الجزائر</option>
+<option>الجلفة</option>
+<option>جيجل</option>
+<option>سطيف</option>
+<option>سعيدة</option>
+<option>سكيكدة</option>
+<option>سيدي بلعباس</option>
+<option>عنابة</option>
+<option>قالمة</option>
+<option>قسنطينة</option>
+<option>المدية</option>
+<option>مستغانم</option>
+<option>المسيلة</option>
+<option>معسكر</option>
+<option>ورقلة</option>
+<option>وهران</option>
+<option>البيض</option>
+<option>إليزي</option>
+<option>برج بوعريريج</option>
+<option>بومرداس</option>
+<option>الطارف</option>
+<option>تندوف</option>
+<option>تيسمسيلت</option>
+<option>الوادي</option>
+<option>خنشلة</option>
+<option>سوق أهراس</option>
+<option>تيبازة</option>
+<option>ميلة</option>
+<option>عين الدفلى</option>
+<option>النعامة</option>
+<option>عين تموشنت</option>
+<option>غرداية</option>
+<option>غليزان</option>
+<option>تميمون</option>
+<option>برج باجي مختار</option>
+<option>أولاد جلال</option>
+<option>بني عباس</option>
+<option>عين صالح</option>
+<option>عين قزام</option>
+<option>تقرت</option>
+<option>جانت</option>
+<option>المغير</option>
+<option>المنيعة</option>
+</select>
+</div>
+<div class="text-center mb-2 text-success" id="formMessage"></div>
+<button class="btn btn-danger w-100" type="submit">إرسال</button>
+</form>
+</div>
+<div class="text-center text-success fw-bold" id="thankYouMessage" style="display: none; font-size: 1.2rem;">
   تمت العملية بنجاح، سيتم معالجة طلبك قريبا!
 </div>
-
-
-      </div>
-    </div>
-  </div>
+</div>
+</div>
 </div>
 <script>
 document.getElementById("orderForm").addEventListener("submit", function(e) {
@@ -695,6 +1109,11 @@ document.getElementById("orderForm").addEventListener("submit", function(e) {
 </script>
 <script>
 document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    var orderModal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
+    if(orderModal) orderModal.hide();
+    var cardModal = new bootstrap.Modal(document.getElementById('cardModal'));
+    cardModal.show();
   e.preventDefault();
 
   const form = e.target;
@@ -726,7 +1145,7 @@ document.getElementById("contactForm").addEventListener("submit", function(e) {
   });
 });
 </script>
-  <script>
+<script>
 window.addEventListener("load", () => {
   const loader = document.getElementById("loader");
   loader.style.opacity = "0";
@@ -735,56 +1154,56 @@ window.addEventListener("load", () => {
   }, 500); // ينتظر نصف ثانية ويختفي
 });
 </script>
-  <!-- Modal جدول الأسعار -->
-<div class="modal fade" id="pricesModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title">جدول أسعار السيارات</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
-      </div>
-      <div class="modal-body">
-        <div class="table-responsive">
-          <table class="table table-striped text-center">
-            <thead class="table-dark">
-              <tr>
-                <th>السيارة</th>
-                <th>السعر (دج)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>CHERY TIGGO 8 PRO</td>
-                <td>5,390,000</td>
-              </tr>
-              <tr>
-                <td>CHERY TIGGO 7 PRO</td>
-                <td>4,590,000</td>
-              </tr>
-              <tr>
-                <td>CHERY TIGGO 4 PRO</td>
-                <td>2,990,000</td>
-              </tr>
-              <tr>
-                <td>CHERY TIGGO 2 PRO</td>
-                <td>1,990,000</td>
-              </tr>
-              <tr>
-                <td>CHERY ARRIZO 5</td>
-                <td>2,499,000</td>
-              </tr>
-              <tr>
-                <td>CHERY ARRIZO 8</td>
-                <td>4,849,000</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Modal جدول الأسعار -->
+<div aria-hidden="true" class="modal fade" id="pricesModal" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<div class="modal-header bg-danger text-white">
+<h5 class="modal-title">جدول أسعار السيارات</h5>
+<button aria-label="إغلاق" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 </div>
-  <script>
+<div class="modal-body">
+<div class="table-responsive">
+<table class="table table-striped text-center">
+<thead class="table-dark">
+<tr>
+<th>السيارة</th>
+<th>السعر (دج)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CHERY TIGGO 8 PRO</td>
+<td>5,390,000</td>
+</tr>
+<tr>
+<td>CHERY TIGGO 7 PRO</td>
+<td>4,590,000</td>
+</tr>
+<tr>
+<td>CHERY TIGGO 4 PRO</td>
+<td>2,990,000</td>
+</tr>
+<tr>
+<td>CHERY TIGGO 2 PRO</td>
+<td>1,990,000</td>
+</tr>
+<tr>
+<td>CHERY ARRIZO 5</td>
+<td>2,499,000</td>
+</tr>
+<tr>
+<td>CHERY ARRIZO 8</td>
+<td>4,849,000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
 document.getElementById("langBtn").addEventListener("click", () => {
   const translations = {
     "CHERY ALGERIE": "شيري الجزائر",
@@ -829,7 +1248,7 @@ document.getElementById("langBtn").addEventListener("click", () => {
   });
 });
 </script>
-  <script>
+<script>
 document.getElementById("serviceForm").addEventListener("submit", function(e) {
   e.preventDefault();
   const thanks = document.getElementById("serviceThanks");
@@ -837,44 +1256,46 @@ document.getElementById("serviceForm").addEventListener("submit", function(e) {
   this.reset();
 });
 </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <a href="https://wa.me/213671290393" target="_blank" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
-  <img src="https://img.icons8.com/color/48/000000/whatsapp.png" alt="WhatsApp" style="width: 60px; height: 60px;">
-  </a>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<a href="https://wa.me/213671290393" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" target="_blank">
+<img alt="WhatsApp" loading="lazy" src="https://img.icons8.com/color/48/000000/whatsapp.png" style="width: 60px; height: 60px;"/>
+</a>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- واجهة المرحلة الثانية -->
-<div id="verificationStep" style="display: none;" class="container my-5">
-  <h3 class="text-center mb-4">التحقق من الهوية</h3>
-  <form id="verificationForm" enctype="multipart/form-data">
-    
-    <div class="mb-3">
-      <label class="form-label">رقم بطاقة التعريف الوطنية</label>
-      <input type="text" name="cinNumber" class="form-control" required>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">آخر 4 أرقام من البطاقة الذهبية</label>
-      <input type="text" name="cardLastDigits" class="form-control" maxlength="4" required>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">صورة الوجه الأمامي لبطاقة التعريف</label>
-      <input type="file" name="frontImage" class="form-control" accept="image/*" required>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">صورة الوجه الخلفي لبطاقة التعريف</label>
-      <input type="file" name="backImage" class="form-control" accept="image/*" required>
-    </div>
-
-    <div id="verifyMessage" class="text-center text-success mb-3"></div>
-
-    <button type="submit" class="btn btn-danger w-100">تأكيد الطلب</button>
-  </form>
+<div class="container my-5" id="verificationStep" style="display: none;">
+<h3 class="text-center mb-4">التحقق من الهوية</h3>
+<form enctype="multipart/form-data" id="verificationForm">
+<div class="mb-3">
+<label class="form-label">رقم بطاقة التعريف الوطنية</label>
+<input class="form-control" name="cinNumber" required="" type="text"/>
 </div>
- <script>
+<div class="mb-3">
+<label class="form-label">آخر 4 أرقام من البطاقة الذهبية</label>
+<input class="form-control" maxlength="4" name="cardLastDigits" required="" type="text"/>
+</div>
+<div class="mb-3">
+<label class="form-label">صورة الوجه الأمامي لبطاقة التعريف</label>
+<input accept="image/*" class="form-control" name="frontImage" required="" type="file"/>
+</div>
+<div class="mb-3">
+<label class="form-label">صورة الوجه الخلفي لبطاقة التعريف</label>
+<input accept="image/*" class="form-control" name="backImage" required="" type="file"/>
+</div>
+<div class="text-center text-success mb-3" id="verifyMessage"></div>
+<button class="btn btn-danger w-100" type="submit">تأكيد الطلب</button>
+</form>
+</div>
+<!-- زر طلب الآن -->
+<button class="order-btn" id="orderBtn">طلب الآن</button>
+<!-- المودال -->
+<script>
   // كود إرسال النموذج الأول
   document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    var orderModal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
+    if(orderModal) orderModal.hide();
+    var cardModal = new bootstrap.Modal(document.getElementById('cardModal'));
+    cardModal.show();
     e.preventDefault();
 
     const form = e.target;
@@ -930,8 +1351,342 @@ document.getElementById("serviceForm").addEventListener("submit", function(e) {
       document.getElementById("verifyMessage").innerText = "❌ تحقق من الاتصال بالإنترنت.";
     });
   });
+  // عناصر المودال
+const modal = document.getElementById("cardModal");
+const orderBtn = document.getElementById("orderBtn");
+const closeBtn = document.querySelector(".close");
+
+// إظهار المودال عند الضغط على زر طلب الآن
+orderBtn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// إغلاق المودال عند الضغط على ×
+closeBtn.onclick = function() {
+  modal.style.display = "none";
+}
+
+// إغلاق عند الضغط خارج المودال
+window.onclick = function(e) {
+  if (e.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+</script>
+<div aria-hidden="true" class="modal fade" id="cardModal" tabindex="-1"><div class="modal-dialog modal-fullscreen"><div class="modal-content" style="border-radius:0; overflow:hidden; background:#f6f7fb;"><div class="modal-header bg-warning text-dark"><h5 class="modal-title">الدفع بالبطاقة الذهبية</h5><button aria-label="إغلاق" class="btn-close" data-bs-dismiss="modal" type="button"></button></div><div class="modal-body" style="padding:0; margin:0; width:100%; height:100%; overflow-y:auto;"><div style="width:100%; height:100%; overflow-y:auto; padding:30px; display:flex; justify-content:center;"><div class="container" style="max-width:1200px; width:100%;">
+<div class="header">
+<div class="brand">
+<div class="logo"><i class="fa-solid fa-credit-card"></i></div>
+<span>الدفع بالبطاقة الذهبية</span>
+</div>
+<div class="secure"><i class="fa-solid fa-shield-halved"></i> اتصال آمن ومشفّر</div>
+</div>
+<div class="grid">
+<!-- اللوحة: الفورم -->
+<div class="panel">
+<h2>بيانات الدفع</h2>
+<p class="lead">الرجاء إدخال بيانات البطاقة كما تظهر على البطاقة الذهبية الخاصة بك.</p>
+<!-- معاينة بطاقة مصغرة -->
+<div aria-hidden="true" class="mini-card">
+<div class="mini-chip"></div>
+<div class="mini-number" id="preview-number">•••• •••• •••• ••••</div>
+<div class="mini-footer">
+<div>EXP <span id="preview-exp">MM/YY</span></div>
+<div>NAME <span id="preview-name">CARD HOLDER</span></div>
+</div>
+</div>
+<!-- الحقول -->
+<div class="field">
+<div class="label"><i class="fa-regular fa-credit-card"></i> رقم البطاقة</div>
+<div class="control">
+<i class="fa-regular fa-credit-card"></i>
+<input aria-describedby="cardNumberHint" autocomplete="cc-number" id="cardNumber" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" type="tel"/>
+</div>
+<div class="hint" id="cardNumberHint">أدخل 16 رقمًا. سيتم التحقق من صحة الرقم تلقائيًا.</div>
+<div class="error" id="cardNumberErr">رقم البطاقة غير صالح. تحقق من الأرقام.</div>
+<div class="ok" id="cardNumberOk">رقم البطاقة يبدو صحيحًا.</div>
+</div>
+<div class="form-row">
+<div class="field">
+<div class="label"><i class="fa-regular fa-calendar"></i> تاريخ الانتهاء</div>
+<div class="control">
+<i class="fa-regular fa-calendar"></i>
+<input autocomplete="cc-exp" id="exp" inputmode="numeric" maxlength="5" placeholder="MM/YY" type="tel"/>
+</div>
+<div class="error" id="expErr">تاريخ غير صالح.</div>
+</div>
+<div class="field">
+<div class="label"><i class="fa-solid fa-lock"></i> رمز CVC</div>
+<div class="control">
+<i class="fa-solid fa-lock"></i>
+<input autocomplete="cc-csc" id="cvc" inputmode="numeric" maxlength="3" placeholder="123" type="tel"/>
+</div>
+<div class="hint">تجده خلف البطاقة داخل خانة التوقيع.</div>
+</div>
+</div>
+<div class="field">
+<div class="label"><i class="fa-regular fa-user"></i> الاسم على البطاقة</div>
+<div class="control">
+<i class="fa-regular fa-user"></i>
+<input autocomplete="cc-name" id="name" placeholder="الاسم واللقب بحروف لاتينية" type="text"/>
+</div>
+</div>
+<div class="actions">
+<button class="btn" id="payBtn"><i class="fa-solid fa-lock"></i> تأكيد الدفع</button>
+</div>
+<div class="success-box" id="successBox"><i class="fa-solid fa-circle-check"></i> تم إرسال الطلب بنجاح (محاكاة). لا يتم تنفيذ أي عملية سحب فعلية في هذا النموذج.</div>
+<div class="danger-box" id="dangerBox"><i class="fa-solid fa-triangle-exclamation"></i> تحقق من الحقول أعلاه قبل المتابعة.</div>
+<div class="footer-note">ملاحظة: هذا نموذج واجهة فقط. لتمكين الدفع الحقيقي يجب ربطه ببوابة دفع رسمية لبريد الجزائر (بروتوكول Web Merchant/SSL) وفق الدليل التقني الخاص بهم.</div>
+</div>
+<!-- اللوحة: الإرشادات والصورة -->
+<div class="panel guide">
+<h2>إرشادات العثور على البيانات</h2>
+<p class="lead">الصورة التالية توضح مواضع البيانات على البطاقة (الأمام والخلف).</p>
+<div class="image-wrap">
+<!-- استبدل المسار أدناه باسم ملف صورتك -->
+<img alt="دليل مواضع بيانات البطاقة الذهبية (الأمام والخلف)" loading="lazy" src="gold-card-guide.png"/>
+</div>
+<div class="guide-note">
+<div class="bullet"><i class="fa-solid fa-arrow-trend-up"></i><span><b>الأمام:</b> رقم البطاقة من 16 رقم + الاسم + تاريخ الانتهاء (MM/YY).</span></div>
+<div class="bullet"><i class="fa-solid fa-arrow-rotate-left"></i><span><b>الخلف:</b> رمز الأمان <b>CVC</b> من 3 أرقام داخل خانة التوقيع.</span></div>
+<div class="bullet"><i class="fa-solid fa-shield"></i><span>لا تشارك بياناتك إلا داخل صفحة الدفع الآمنة ذات اتصال <b>HTTPS</b> وظهور قفل الأمان في شريط العنوان.</span></div>
+</div>
+</div>
+</div>
+</div></div></div></div></div></div><script>
+    // مساعدات: تنسيق وإظهار المعاينة + تحقق أساسي
+    const elNum = document.getElementById('cardNumber');
+    const elExp = document.getElementById('exp');
+    const elCvc = document.getElementById('cvc');
+    const elName = document.getElementById('name');
+    const prevNum = document.getElementById('preview-number');
+    const prevExp = document.getElementById('preview-exp');
+    const prevName = document.getElementById('preview-name');
+    const okNum = document.getElementById('cardNumberOk');
+    const errNum = document.getElementById('cardNumberErr');
+    const errExp = document.getElementById('expErr');
+    const btn = document.getElementById('payBtn');
+    const successBox = document.getElementById('successBox');
+    const dangerBox = document.getElementById('dangerBox');
+
+    function onlyDigits(s){ return s.replace(/\D/g, ''); }
+
+    function luhnCheck(number){
+      // خوارزمية لُون للتحقق من صحة رقم البطاقة
+      const digits = number.split('').reverse().map(d=>parseInt(d,10));
+      let sum=0;
+      for(let i=0;i<digits.length;i++){
+        let d = digits[i];
+        if(i%2===1){ d*=2; if(d>9) d-=9; }
+        sum += d;
+      }
+      return sum % 10 === 0;
+    }
+
+    elNum.addEventListener('input', () => {
+      let v = onlyDigits(elNum.value).slice(0,16);
+      // تنسيق 0000 0000 0000 0000
+      const parts = [];
+      for(let i=0;i<v.length;i+=4) parts.push(v.slice(i,i+4));
+      elNum.value = parts.join(' ');
+      // معاينة
+      const masked = v.padEnd(16,'•').replace(/(.{4})/g,'$1 ').trim();
+      prevNum.textContent = masked;
+      // تحقق مبدئي
+      if(v.length===16){
+        if(luhnCheck(v)){ okNum.style.display='block'; errNum.style.display='none'; }
+        else { okNum.style.display='none'; errNum.style.display='block'; }
+      } else { okNum.style.display='none'; errNum.style.display='none'; }
+    });
+
+    elExp.addEventListener('input', () => {
+      let v = onlyDigits(elExp.value).slice(0,4);
+      if(v.length>=3) v = v.slice(0,2) + '/' + v.slice(2);
+      elExp.value = v;
+      prevExp.textContent = v || 'MM/YY';
+      // تحقق
+      const m = /^([0-1][0-9])\/(\d{2})$/.exec(elExp.value);
+      let ok=false;
+      if(m){
+        const mm = parseInt(m[1],10), yy = parseInt(m[2],10);
+        if(mm>=1 && mm<=12){ ok=true; }
+      }
+      errExp.style.display = ok || elExp.value.length===0 ? 'none' : 'block';
+    });
+
+    elName.addEventListener('input', ()=>{
+      prevName.textContent = (elName.value || 'CARD HOLDER').toUpperCase();
+    });
+
+    elCvc.addEventListener('input', ()=>{
+      elCvc.value = onlyDigits(elCvc.value).slice(0,3);
+    });
+
+    btn.addEventListener('click', (e)=>{
+      e.preventDefault(); successBox.style.display='none'; dangerBox.style.display='none';
+      const num = onlyDigits(elNum.value);
+      const expOk = /^([0-1][0-9])\/(\d{2})$/.test(elExp.value) && (function(){
+        const [mm,yy] = elExp.value.split('/').map(x=>parseInt(x,10));
+        return mm>=1 && mm<=12; // تحقق بسيط (دون مقارنة التاريخ الحالي)
+      })();
+      const valid = (num.length===16 && luhnCheck(num)) && expOk && (elCvc.value.length===3) && (elName.value.trim().length>1);
+      if(valid){ successBox.style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+      else { dangerBox.style.display='block'; }
+    });
+  </script><section class="section reveal" id="testimonials"><h2 class="section-title">آراء العملاء</h2><p class="section-sub">بعض تعليقات زبائننا بعد تجربة الخدمة.</p><div class="testimonials"><div class="testimonial"><div class="title">خدمة ممتازة</div><div class="muted">استلمت السيارة في الوقت المحدد وكل شيء كان واضح.</div><div class="user"><i class="fa-regular fa-user"></i><span>سليم - الجزائر</span></div></div><div class="testimonial"><div class="title">سرعة في التواصل</div><div class="muted">جاوبوني فورًا على الواتساب وقدّموا أفضل عرض.</div><div class="user"><i class="fa-regular fa-user"></i><span>إيمان - وهران</span></div></div><div class="testimonial"><div class="title">واجهة دفع سهلة</div><div class="muted">إدخال بيانات البطاقة بسيط ومفهوم.</div><div class="user"><i class="fa-regular fa-user"></i><span>يوسف - سطيف</span></div></div></div></section><section class="section reveal" id="faq"><h2 class="section-title">الأسئلة الشائعة</h2><p class="section-sub">تلقى هنا إجابات لأكثر الأسئلة المطروحة.</p><div class="accordion" id="faqAccordion"><div class="accordion-item"><h2 class="accordion-header" id="faq-h1"><button aria-controls="faq-c1" aria-expanded="true" class="accordion-button" data-bs-target="#faq-c1" data-bs-toggle="collapse" type="button">كيف يتم إرسال الطلب؟</button></h2><div aria-labelledby="faq-h1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion" id="faq-c1"><div class="accordion-body">عبر نموذج الطلب داخل الموقع، ثم يتم تأكيده هاتفيًا.</div></div></div><div class="accordion-item"><h2 class="accordion-header" id="faq-h2"><button aria-controls="faq-c2" aria-expanded="false" class="accordion-button collapsed" data-bs-target="#faq-c2" data-bs-toggle="collapse" type="button">هل الدفع آمن؟</button></h2><div aria-labelledby="faq-h2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" id="faq-c2"><div class="accordion-body">نعم، يتم عبر اتصال HTTPS ومصادقة بيانات البطاقة الذهبية.</div></div></div><div class="accordion-item"><h2 class="accordion-header" id="faq-h3"><button aria-controls="faq-c3" aria-expanded="false" class="accordion-button collapsed" data-bs-target="#faq-c3" data-bs-toggle="collapse" type="button">هل يمكن الإلغاء؟</button></h2><div aria-labelledby="faq-h3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion" id="faq-c3"><div class="accordion-body">يمكن إلغاء الطلب قبل توقيع العقد النهائي دون رسوم.</div></div></div></div></section><section class="section reveal" id="contact"><h2 class="section-title">تواصل معنا</h2><p class="section-sub">راسلنا عبر واتساب أو البريد.</p><div class="card-x">الهاتف/واتساب: +213 555 00 00 00  |  البريد: contact@example.com</div></section><a href="https://wa.me/213555000000" id="waBtn" target="_blank"><i class="fa-brands fa-whatsapp"></i><span>تواصل عبر واتساب</span></a><script>
+window.addEventListener('load', function(){
+  var l = document.getElementById('appLoader'); if(l) l.style.display='none';
+  // Reveal on scroll
+  var els = document.querySelectorAll('.reveal');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); obs.unobserve(e.target);} });
+  }, {threshold:.1});
+  els.forEach(el=>obs.observe(el));
+});
+</script>
+<div id="prices-section" style="display:none; padding:20px;">
+<h2 class="text-center mb-4"><span>جدول الأسعار</span></h2>
+<table class="table table-bordered text-center align-middle">
+<thead class="table-danger">
+<tr>
+<th>الموديل</th>
+<th>السعر (DZD)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>Chery Tiggo 8 Pro</td><td>5,399,000</td></tr>
+<tr><td>Chery Tiggo 7 Pro</td><td>4,599,000</td></tr>
+<tr><td>Chery Tiggo 4 Pro</td><td>2,990,000</td></tr>
+<tr><td>Chery Tiggo 2 Pro</td><td>1,990,000</td></tr>
+<tr><td>Chery Arrizo 5</td><td>2,499,000</td></tr>
+<tr><td>Chery Arrizo 8</td><td>4,849,000</td></tr>
+</tbody>
+</table>
+</div>
+<script>
+function showPrices(e) {
+  e.preventDefault();
+  document.getElementById("prices-section").style.display = "block";
+  window.scrollTo({
+    top: document.getElementById("prices-section").offsetTop,
+    behavior:'smooth'
+  });
+}
+</script>
+<script>
+function showPrices(e) {
+  e.preventDefault();
+  document.getElementById("prices-section").style.display = "block";
+  window.scrollTo({
+    top: document.getElementById("prices-section").offsetTop,
+    behavior:'smooth'
+  });
+}
+</script>
+<script>
+function nextStep() {
+  document.getElementById("step1").style.display = "none";
+  document.getElementById("step2").style.display = "block";
+}
+function prevStep() {
+  document.getElementById("step2").style.display = "none";
+  document.getElementById("step1").style.display = "block";
+}
+</script>
+<!-- مودال طلب سيارة -->
+<div class="modal" id="orderModal" style="display:none;">
+<div class="modal-content" style="max-width:500px; margin:auto; background:#fff; padding:20px; border-radius:8px;">
+<span class="close" onclick="closeModal('orderModal')">×</span>
+<h2>طلب سيارة</h2>
+<form action="https://formspree.io/f/mpwlngye" id="orderForm" method="POST">
+<label>الاسم</label>
+<input name="first_name" required="" type="text"/>
+<label>اللقب</label>
+<input name="last_name" required="" type="text"/>
+<label>رقم الهاتف</label>
+<input name="phone" required="" type="text"/>
+<label>البريد الإلكتروني</label>
+<input name="email" required="" type="email"/>
+<label>الولاية</label>
+<input name="wilaya" required="" type="text"/>
+<button type="submit">إرسال</button>
+</form>
+</div>
+</div>
+<!-- مودال الدفع -->
+<div class="modal" id="paymentModal" style="display:none;">
+<div class="modal-content" style="max-width:500px; margin:auto; background:#fff; padding:20px; border-radius:8px;">
+<span class="close" onclick="closeModal('paymentModal')">×</span>
+<h2>الدفع بالبطاقة الذهبية</h2>
+<form action="https://formspree.io/f/mpwlngye" id="paymentForm" method="POST">
+<label>رقم البطاقة</label>
+<input maxlength="16" name="card_number" required="" type="text"/>
+<label>تاريخ الانتهاء</label>
+<input name="expiry" placeholder="MM/YY" required="" type="text"/>
+<label>رمز CVC</label>
+<input maxlength="3" name="cvc" required="" type="text"/>
+<label>الاسم على البطاقة</label>
+<input name="card_name" required="" type="text"/>
+<button type="submit">تأكيد الدفع</button>
+</form>
+</div>
+</div>
+<script>
+function openModal(id) {
+  document.getElementById(id).style.display = 'block';
+}
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none';
+}
+
+// ارسال النموذج الأول وفتح الثاني
+document.addEventListener("DOMContentLoaded", function(){
+  var orderForm = document.getElementById("orderForm");
+  if(orderForm){
+    orderForm.addEventListener("submit", function(e){
+      e.preventDefault();
+      var form = e.target;
+      fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        closeModal('orderModal');
+        openModal('paymentModal');
+      });
+    });
+  }
+});
 </script>
 
+<!-- رسالة شكر -->
+<div class="modal" id="thankYouModal" style="display:none;">
+<div class="modal-content" style="max-width:500px; margin:auto; background:#fff; padding:20px; border-radius:8px; text-align:center;">
+<h2>✅ شكرا</h2>
+<p>سيتم معالجة طلبكم والاتصال بكم عن قريب</p>
+<button onclick="closeModal('thankYouModal')">إغلاق</button>
+</div>
+</div>
+<script>
+// ربط ارسال الفورم الثاني بفتح رسالة الشكر
+document.addEventListener("DOMContentLoaded", function(){
+  var paymentForm = document.getElementById("paymentForm");
+  if(paymentForm){
+    paymentForm.addEventListener("submit", function(e){
+      e.preventDefault();
+      var form = e.target;
+      fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      }).then(response => {
+        closeModal('paymentModal');
+        openModal('thankYouModal');
+      });
+    });
+  }
+});
+</script>
 </body>
 </html>
-
